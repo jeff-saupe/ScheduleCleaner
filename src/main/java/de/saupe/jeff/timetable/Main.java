@@ -1,25 +1,23 @@
 package de.saupe.jeff.timetable;
 
 import de.saupe.jeff.timetable.utils.Logger;
-import de.saupe.jeff.timetable.utils.Settings;
+import de.saupe.jeff.timetable.utils.Properties;
 
 import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
-    private final static String NAME = "TimetableCleaner";
-    private final static String VERSION = "1.0";
 
     public static void main(String[] args) {
-        Logger.info(String.format(NAME + " v%s started", VERSION));
+        Logger.info(String.format(Properties.NAME + " v%s started", Properties.VERSION));
 
         Scanner scanner = new Scanner(System.in);
         while(true) {
             Logger.info("Enter your centuria:");
-            Settings.centuria = scanner.nextLine();
+            Properties.CENTURIA = scanner.nextLine();
 
             Logger.info("Enter your semester:");
-            Settings.semester = scanner.nextLine();
+            Properties.SEMESTER = scanner.nextLine();
 
             try {
                 Cleaner cleaner = new Cleaner();

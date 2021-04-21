@@ -2,7 +2,7 @@ package de.saupe.jeff.timetable;
 
 import de.saupe.jeff.timetable.components.EventRange;
 import de.saupe.jeff.timetable.utils.Logger;
-import de.saupe.jeff.timetable.utils.Settings;
+import de.saupe.jeff.timetable.utils.Properties;
 import de.saupe.jeff.timetable.utils.Utils;
 
 import java.io.*;
@@ -50,7 +50,7 @@ public class Cleaner {
         }
 
         // Build ICS file
-        try (PrintStream printStream = new PrintStream(Utils.getJarPath() + "\\" + Settings.centuria + "_" + Settings.semester + ".ics", String.valueOf(StandardCharsets.ISO_8859_1))) {
+        try (PrintStream printStream = new PrintStream(Utils.getJarPath() + "\\" + Properties.CENTURIA + "_" + Properties.SEMESTER + ".ics", String.valueOf(StandardCharsets.ISO_8859_1))) {
             printStream.print(stringBuilder.toString());
         }
     }
@@ -66,7 +66,7 @@ public class Cleaner {
         BufferedReader bufferedReader;
 
         try {
-            inputStream = new URL(String.format(Settings.URL_STUDY_PLAN_ICS, Settings.centuria, Settings.semester)).openStream();
+            inputStream = new URL(String.format(Properties.URL_STUDY_PLAN_ICS, Properties.CENTURIA, Properties.SEMESTER)).openStream();
             bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.ISO_8859_1));
         } catch (Exception e) {
             Logger.error("Failed to retrieve the plan");
