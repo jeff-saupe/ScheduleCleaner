@@ -3,7 +3,11 @@ package de.saupe.jeff.timetable;
 import de.saupe.jeff.timetable.components.EventRange;
 import de.saupe.jeff.timetable.utils.Properties;
 import de.saupe.jeff.timetable.utils.Utils;
+import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import net.fortuna.ical4j.data.CalendarBuilder;
+import net.fortuna.ical4j.model.Calendar;
+import net.fortuna.ical4j.model.Component;
 
 import java.io.*;
 import java.net.URL;
@@ -14,42 +18,58 @@ import java.util.Collections;
 import java.util.List;
 
 @Log4j2
+@AllArgsConstructor
 public class Cleaner {
+    private String centuria;
+    private String semester;
 
     public void start() throws IOException {
-        List<String> lines = getLines();
-        List<EventRange> eventRanges = getEventRanges(lines);
-
-        // Corrections
-        for (EventRange eventRange : eventRanges) {
-            // Update summary and title
-            updateSummary(lines, eventRange);
-
-            // Remove specific courses
-            removeEvents(lines, eventRange);
-        }
-
-        // Remove ignored event ranges from list
-        Collections.reverse(eventRanges);
-        eventRanges.stream().filter(range -> range.remove).forEach(range -> {
-            for (int i = range.stop; i >= range.start; i--) {
-                lines.remove(i);
+        try {
+            InputStream inputStream = new URL(String.format(Properties.URL_ICS, centuria, semester)).openStream();
+            CalendarBuilder builder = new CalendarBuilder();
+            Calendar calendar = builder.build(inputStream);
+            for (Object object : calendar.getComponents(Component.VEVENT)) {
+                Component component = (Component) object;
+                System.out.println(component.toString());
             }
-        });
-
-        // Rebuild ICS file by concatenating every line
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < lines.size(); i++) {
-            stringBuilder.append(lines.get(i));
-
-            if (i < lines.size() - 1)
-                stringBuilder.append("\n");
+        } catch (Exception e) {
+            log.error("Failed to retrieve the plan");
         }
 
-        // Build ICS file
-        try (PrintStream printStream = new PrintStream(Utils.getJarPath() + "\\" + Properties.CENTURIA + "_" + Properties.SEMESTER + ".ics", String.valueOf(StandardCharsets.ISO_8859_1))) {
-            printStream.print(stringBuilder.toString());
-        }
+
+//        List<String> lines = getLines();
+//        List<EventRange> eventRanges = getEventRanges(lines);
+//
+//        // Corrections
+//        for (EventRange eventRange : eventRanges) {
+//            // Update summary and title
+//            updateSummary(lines, eventRange);
+//
+//            // Remove specific courses
+//            removeEvents(lines, eventRange);
+//        }
+//
+//        // Remove ignored event ranges from list
+//        Collections.reverse(eventRanges);
+//        eventRanges.stream().filter(range -> range.remove).forEach(range -> {
+//            for (int i = range.stop; i >= range.start; i--) {
+//                lines.remove(i);
+//            }
+//        });
+//
+//        // Rebuild ICS file by concatenating every line
+//        StringBuilder stringBuilder = new StringBuilder();
+//        for (int i = 0; i < lines.size(); i++) {
+//            stringBuilder.append(lines.get(i));
+//
+//            if (i < lines.size() - 1)
+//                stringBuilder.append("\n");
+//        }
+//
+//        // Build ICS file
+//        try (PrintStream printStream = new PrintStream(Utils.getJarPath() + "\\" + centuria + "_" + semester + ".ics", String.valueOf(StandardCharsets.ISO_8859_1))) {
+//            printStream.print(stringBuilder.toString());
+//        }
     }
 
     /**
@@ -63,7 +83,7 @@ public class Cleaner {
         BufferedReader bufferedReader;
 
         try {
-            inputStream = new URL(String.format(Properties.URL_STUDY_PLAN_ICS, Properties.CENTURIA, Properties.SEMESTER)).openStream();
+            inputStream = new URL(String.format(Properties.URL_ICS, centuria, semester)).openStream();
             bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.ISO_8859_1));
         } catch (Exception e) {
             log.error("Failed to retrieve the plan");

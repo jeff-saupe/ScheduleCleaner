@@ -21,13 +21,13 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             log.info("Enter your centuria:");
-            Properties.CENTURIA = scanner.nextLine();
+            String centuria = scanner.nextLine();
 
             log.info("Enter your semester:");
-            Properties.SEMESTER = scanner.nextLine();
+            String semester = scanner.nextLine();
 
             try {
-                Cleaner cleaner = new Cleaner();
+                Cleaner cleaner = new Cleaner(centuria, semester);
                 cleaner.start();
                 log.info("Done!");
                 return;
