@@ -1,9 +1,9 @@
 package de.saupe.jeff.timetable;
 
 import de.saupe.jeff.timetable.components.EventRange;
-import de.saupe.jeff.timetable.utils.Logger;
 import de.saupe.jeff.timetable.utils.Properties;
 import de.saupe.jeff.timetable.utils.Utils;
+import lombok.extern.log4j.Log4j2;
 
 import java.io.*;
 import java.net.URL;
@@ -13,11 +13,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+@Log4j2
 public class Cleaner {
-
-    public Cleaner() {
-
-    }
 
     public void start() throws IOException {
         List<String> lines = getLines();
@@ -69,7 +66,7 @@ public class Cleaner {
             inputStream = new URL(String.format(Properties.URL_STUDY_PLAN_ICS, Properties.CENTURIA, Properties.SEMESTER)).openStream();
             bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.ISO_8859_1));
         } catch (Exception e) {
-            Logger.error("Failed to retrieve the plan");
+            log.error("Failed to retrieve the plan");
             return null;
         }
 
