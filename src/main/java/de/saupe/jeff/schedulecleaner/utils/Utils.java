@@ -1,12 +1,24 @@
-package de.saupe.jeff.timetable.utils;
+package de.saupe.jeff.schedulecleaner.utils;
 
-import de.saupe.jeff.timetable.Main;
+import de.saupe.jeff.schedulecleaner.Main;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.security.CodeSource;
 
 public class Utils {
+
+    public static void printBanner() {
+        InputStream inputStream = Utils.class.getResourceAsStream("/banner.txt");
+        assert inputStream != null;
+
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.ISO_8859_1));
+        bufferedReader.lines().forEach(System.out::println);
+    }
 
     public static boolean hasModule(String summary) {
         if (summary.length() <= 5) {
@@ -20,7 +32,6 @@ public class Utils {
                 }
             }
         }
-
         return false;
     }
 
