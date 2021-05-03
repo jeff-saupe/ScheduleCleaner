@@ -1,15 +1,14 @@
 package de.saupe.jeff.schedulecleaner.components;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
 public class EventRange {
-    public int start;
-    public int stop;
-    public boolean remove = false;
-
-    public EventRange() {
-    }
-
-    public EventRange(int start, int end) {
-        this.start = start;
-        this.stop = end;
-    }
+    private int start;
+    private int stop;
+    private boolean excluded = false;
 }
