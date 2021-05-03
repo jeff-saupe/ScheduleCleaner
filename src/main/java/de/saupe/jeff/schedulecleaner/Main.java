@@ -10,7 +10,8 @@ import java.util.Scanner;
 public class Main {
 
     public Main () {
-        Utils.printBanner();
+        // Banner printing will be disabled until encoding has been fixed for command line
+        //Utils.printBanner();
         log.info("NORDAKADEMIE {} v{} has started", Properties.NAME, Properties.VERSION);
         startDialog();
     }
