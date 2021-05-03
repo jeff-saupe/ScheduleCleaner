@@ -2,24 +2,21 @@ package de.saupe.jeff.schedulecleaner.utils;
 
 import de.saupe.jeff.schedulecleaner.Main;
 
+import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Files;
 import java.security.CodeSource;
 
 public class Utils {
 
     public static void printBanner() {
-        URL url = Main.class.getClassLoader().getResource(Properties.BANNER);
-        assert url != null;
+        InputStream inputStream = Utils.class.getResourceAsStream("/banner.txt");
+        assert inputStream != null;
 
-        try {
-            File file = new File(url.getPath());
-            Files.readAllLines(file.toPath()).forEach(System.out::println);
-        } catch (IOException ignored) {
-        }
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+        bufferedReader.lines().forEach(System.out::println);
     }
 
     public static boolean hasModule(String summary) {
