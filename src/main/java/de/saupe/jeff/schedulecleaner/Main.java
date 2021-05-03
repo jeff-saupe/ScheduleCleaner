@@ -1,7 +1,7 @@
-package de.saupe.jeff.timetable;
+package de.saupe.jeff.schedulecleaner;
 
-import de.saupe.jeff.timetable.utils.Properties;
-import de.saupe.jeff.timetable.utils.Utils;
+import de.saupe.jeff.schedulecleaner.utils.Properties;
+import de.saupe.jeff.schedulecleaner.utils.Utils;
 import lombok.extern.log4j.Log4j2;
 
 import java.io.IOException;
@@ -13,7 +13,7 @@ public class Main {
     public Main () {
         Utils.printBanner();
         log.info("{} v{} has started", Properties.NAME, Properties.VERSION);
-        
+
         startDialog();
     }
 

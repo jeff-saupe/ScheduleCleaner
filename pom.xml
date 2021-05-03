@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>de.saupe.jeff</groupId>
-    <artifactId>TimetableCleaner</artifactId>
+    <artifactId>ScheduleCleaner</artifactId>
     <version>1.0</version>
 
     <properties>
@@ -29,6 +29,17 @@
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
             <version>2.14.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.30</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.7.30</version>
         </dependency>
         <dependency>
             <groupId>org.mnode.ical4j</groupId>

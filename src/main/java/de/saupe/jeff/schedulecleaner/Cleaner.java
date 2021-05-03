@@ -1,8 +1,8 @@
-package de.saupe.jeff.timetable;
+package de.saupe.jeff.schedulecleaner;
 
-import de.saupe.jeff.timetable.components.EventRange;
-import de.saupe.jeff.timetable.utils.Properties;
-import de.saupe.jeff.timetable.utils.Utils;
+import de.saupe.jeff.schedulecleaner.components.EventRange;
+import de.saupe.jeff.schedulecleaner.utils.Properties;
+import de.saupe.jeff.schedulecleaner.utils.Utils;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import net.fortuna.ical4j.data.CalendarBuilder;
@@ -14,7 +14,6 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 @Log4j2

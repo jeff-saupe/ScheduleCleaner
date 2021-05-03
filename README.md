@@ -1,1 +1,1 @@
-# TimetableCleaner
+# ScheduleCleaner

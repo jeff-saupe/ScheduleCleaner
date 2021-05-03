@@ -1,9 +1,8 @@
-package de.saupe.jeff.timetable.utils;
+package de.saupe.jeff.schedulecleaner.utils;
 
-import de.saupe.jeff.timetable.Main;
+import de.saupe.jeff.schedulecleaner.Main;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;

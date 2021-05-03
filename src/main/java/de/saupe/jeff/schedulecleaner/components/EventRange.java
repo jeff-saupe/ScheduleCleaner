@@ -1,4 +1,4 @@
-package de.saupe.jeff.timetable.components;
+package de.saupe.jeff.schedulecleaner.components;
 
 public class EventRange {
     public int start;
