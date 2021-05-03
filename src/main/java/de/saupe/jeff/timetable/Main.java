@@ -10,31 +10,35 @@ import java.util.Scanner;
 @Log4j2
 public class Main {
 
-    public static void main(String[] args) {
-        try {
-            Utils.printBanner();
-        } catch (Exception ignored) {
-        }
-
+    public Main () {
+        Utils.printBanner();
         log.info("{} v{} has started", Properties.NAME, Properties.VERSION);
+        
+        startDialog();
+    }
 
+    private void startDialog() {
         Scanner scanner = new Scanner(System.in);
         while (true) {
-            log.info("Enter your centuria:");
+            log.info("What's your centuria?");
             String centuria = scanner.nextLine();
 
-            log.info("Enter your semester:");
+            log.info("In which semester are you?");
             String semester = scanner.nextLine();
 
             try {
+                log.info("Alright. I'm cleaning your messy schedule now..");
                 Cleaner cleaner = new Cleaner(centuria, semester);
                 cleaner.start();
-                log.info("Done!");
+                log.info("Done! :)");
                 return;
             } catch (IOException e) {
-                log.error("An error occurred: ");
-                e.printStackTrace();
+                log.error("An error occurred: \n" + e.getMessage());
             }
         }
+    }
+
+    public static void main(String[] args) {
+        new Main();
     }
 }

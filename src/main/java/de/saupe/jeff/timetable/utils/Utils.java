@@ -4,6 +4,7 @@ import de.saupe.jeff.timetable.Main;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
@@ -11,13 +12,15 @@ import java.security.CodeSource;
 
 public class Utils {
 
-    public static void printBanner() throws Exception {
+    public static void printBanner() {
         URL url = Main.class.getClassLoader().getResource(Properties.BANNER);
-        if (url == null) {
-            throw new FileNotFoundException();
+        assert url != null;
+
+        try {
+            File file = new File(url.getPath());
+            Files.readAllLines(file.toPath()).forEach(System.out::println);
+        } catch (IOException ignored) {
         }
-        File file = new File(url.getPath());
-        Files.readAllLines(file.toPath()).forEach(System.out::println);
     }
 
     public static boolean hasModule(String summary) {
