@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.security.CodeSource;
 
 public class Utils {
@@ -15,7 +16,7 @@ public class Utils {
         InputStream inputStream = Utils.class.getResourceAsStream("/banner.txt");
         assert inputStream != null;
 
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.ISO_8859_1));
         bufferedReader.lines().forEach(System.out::println);
     }
 
