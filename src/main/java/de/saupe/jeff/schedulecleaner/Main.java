@@ -1,19 +1,46 @@
 package de.saupe.jeff.schedulecleaner;
 
+import com.sun.net.httpserver.HttpServer;
+import de.saupe.jeff.schedulecleaner.components.CleaningAction;
 import de.saupe.jeff.schedulecleaner.utils.Properties;
-import de.saupe.jeff.schedulecleaner.utils.Utils;
 import lombok.extern.log4j.Log4j2;
+import net.sourceforge.argparse4j.ArgumentParsers;
+import net.sourceforge.argparse4j.impl.Arguments;
+import net.sourceforge.argparse4j.inf.ArgumentParser;
+import net.sourceforge.argparse4j.inf.ArgumentParserException;
+import net.sourceforge.argparse4j.inf.Namespace;
 
+import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.util.Scanner;
 
 @Log4j2
 public class Main {
 
-    public Main () {
+    public Main(boolean servermode) {
         // Banner printing will be disabled until encoding has been fixed for command line
         //Utils.printBanner();
         log.info("NORDAKADEMIE {} v{} has started", Properties.NAME, Properties.VERSION);
-        startDialog();
+
+        if (servermode)
+            startHTTPServer();
+        else
+            startDialog();
+    }
+
+    private void startHTTPServer() {
+        String port = System.getenv("PORT"); //für Heroku
+        if (port == null)
+            port = "5000";
+        try {
+            HttpServer server = HttpServer.create(new InetSocketAddress(Integer.parseInt(port)), 0);
+            server.createContext(Properties.PATH_DynamicIcsServer, new DynamicIcsServer());
+            server.setExecutor(null);
+            server.start();
+            log.info("DynamicIcsServer started on port {}", port);
+        } catch (IOException e) {
+            log.error("Failed to start DynamicIcsServer on port {}", port);
+        }
     }
 
     private void startDialog() {
@@ -27,7 +54,7 @@ public class Main {
 
         log.info("Alright. I'm starting to clean your messy schedule now..");
 
-        Cleaner cleaner = new Cleaner(centuria, semester);
+        Cleaner cleaner = new Cleaner(centuria, semester, CleaningAction.CLEAN);
         cleaner.setResponseHandler(new ResponseHandler() {
             @Override
             public void onDone(String result) {
@@ -54,6 +81,14 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        new Main();
+        ArgumentParser parser = ArgumentParsers.newFor("ScheduleCleaner").build();
+        parser.addArgument("-s", "--servermode").help("run a server to dynamically serve ics files").action(Arguments.storeTrue());
+        try {
+            Namespace ns = parser.parseArgs(args);
+            new Main(ns.get("servermode"));
+        } catch (ArgumentParserException e) {
+            parser.handleError(e);
+            System.exit(1);
+        }
     }
 }
