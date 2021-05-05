@@ -1,5 +1,6 @@
 package de.saupe.jeff.schedulecleaner;
 
+import de.saupe.jeff.schedulecleaner.components.CleaningAction;
 import de.saupe.jeff.schedulecleaner.components.fix.EventFix;
 import de.saupe.jeff.schedulecleaner.components.EventRange;
 import de.saupe.jeff.schedulecleaner.components.fix.SummaryFix;
@@ -24,13 +25,15 @@ public class Cleaner {
 
     private final String centuria;
     private final String semester;
+    private final CleaningAction cleaningAction;
 
     private final List<SummaryFix> summaryFixes = new ArrayList<>();
     private final List<EventFix> eventFixes = new ArrayList<>();
 
-    public Cleaner(String centuria, String semester) {
+    public Cleaner(String centuria, String semester, CleaningAction cleaningAction) {
         this.centuria = centuria;
         this.semester = semester;
+        this.cleaningAction = cleaningAction;
 
         // Summary/title fixes
         summaryFixes.add(new SummaryFix(FixMethod.CONTAINS, "Tech.Grundlagen der Informatik 2",
@@ -76,17 +79,23 @@ public class Cleaner {
                 stringBuilder.append("\n");
         }
 
-        // Build ICS file
-        String path = Utils.getJarPath() + "\\" + centuria + "_" + semester + ".ics";
-        try (PrintStream printStream = new PrintStream(path, String.valueOf(StandardCharsets.ISO_8859_1))) {
-            printStream.print(stringBuilder);
-            responseHandler.onDone(path);
-        } catch (FileNotFoundException | UnsupportedEncodingException e) {
-            responseHandler.onError("Building the ICS has failed. \n" + e.getMessage());
+        switch (cleaningAction){
+            case CLEAN:
+                responseHandler.onDone(stringBuilder.toString());
+                break;
+            case CLEAN_AND_WRITE:
+                String path = Utils.getJarPath() + "\\" + centuria + "_" + semester + ".ics";
+                try (PrintStream printStream = new PrintStream(path, String.valueOf(StandardCharsets.ISO_8859_1))) {
+                    printStream.print(stringBuilder);
+                    responseHandler.onDone(path);
+                } catch (FileNotFoundException | UnsupportedEncodingException e) {
+                    responseHandler.onError("Building the ICS has failed. \n" + e.getMessage());
+                }
+                break;
+            default:
+                responseHandler.onError("Unknown cleaning action");
         }
     }
-
-
 
     /**
      * Retrieve the ICS file over the internet and return every line in a list
