@@ -9,8 +9,8 @@ public abstract class Fix {
         CONTAINS, EQUALS, ENDS_WITH, STARTS_WITH
     }
 
-    private FixMethod method;
-    private String text;
+    private final FixMethod method;
+    private final String text;
 
     public boolean check(final String line) {
         switch (method) {

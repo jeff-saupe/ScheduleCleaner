@@ -13,7 +13,7 @@ import java.security.CodeSource;
 public class Utils {
 
     public static void printBanner() {
-        InputStream inputStream = Utils.class.getResourceAsStream("/banner.txt");
+        InputStream inputStream = Utils.class.getResourceAsStream(Properties.BANNER);
         assert inputStream != null;
 
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.ISO_8859_1));

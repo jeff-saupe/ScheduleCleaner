@@ -17,24 +17,25 @@ import java.util.Scanner;
 @Log4j2
 public class Main {
 
-    public Main(boolean servermode) {
-        // Banner printing will be disabled until encoding has been fixed for command line
+    public Main(boolean serverMode) {
+        // Banner printing stays disabled until encoding has been fixed for command line
         //Utils.printBanner();
         log.info("NORDAKADEMIE {} v{} has started", Properties.NAME, Properties.VERSION);
 
-        if (servermode)
+        if (serverMode)
             startHTTPServer();
         else
-            startDialog();
+            startLocalDialog();
     }
 
     private void startHTTPServer() {
-        String port = System.getenv("PORT"); //for Heroku
+        String port = System.getenv("PORT"); // for Heroku
         if (port == null)
             port = "5000";
+
         try {
             HttpServer server = HttpServer.create(new InetSocketAddress(Integer.parseInt(port)), 0);
-            server.createContext(Properties.PATH_DynamicIcsServer, new DynamicIcsServer());
+            server.createContext(Properties.PATH_DYNAMIC_ICS_SERVER, new DynamicIcsServer());
             server.setExecutor(null);
             server.start();
             log.info("DynamicIcsServer started on port {}", port);
@@ -43,9 +44,10 @@ public class Main {
         }
     }
 
-    private void startDialog() {
+    private void startLocalDialog() {
         Scanner scanner = new Scanner(System.in);
 
+        log.info("Hey! :)");
         log.info("What's your centuria?");
         String centuria = scanner.nextLine();
 
@@ -54,16 +56,16 @@ public class Main {
 
         log.info("Alright. I'm starting to clean your messy schedule now..");
 
-        Cleaner cleaner = new Cleaner(centuria, semester, CleaningAction.CLEAN);
+        Cleaner cleaner = new Cleaner(centuria, semester, CleaningAction.CLEAN_AND_WRITE);
         cleaner.setResponseHandler(new ResponseHandler() {
             @Override
             public void onDone(String result) {
-                log.info("Done! :)");
+                log.info("Done!");
                 log.info("The file has been saved here: " + result);
-                log.info("I'm going to close myself automatically in 3 seconds..");
+                log.info("I'm going to close myself automatically in 5 seconds..");
 
                 try {
-                    Thread.sleep(3000);
+                    Thread.sleep(5000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -82,7 +84,9 @@ public class Main {
 
     public static void main(String[] args) {
         ArgumentParser parser = ArgumentParsers.newFor("ScheduleCleaner").build();
-        parser.addArgument("-s", "--servermode").help("run a server to dynamically serve ics files").action(Arguments.storeTrue());
+        parser.addArgument("-s", "--servermode")
+                .help("Run a server to dynamically serve ICS files.")
+                .action(Arguments.storeTrue());
         try {
             Namespace ns = parser.parseArgs(args);
             new Main(ns.get("servermode"));
@@ -91,4 +95,5 @@ public class Main {
             System.exit(1);
         }
     }
+
 }
