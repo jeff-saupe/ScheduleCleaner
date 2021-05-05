@@ -16,6 +16,7 @@ public class DynamicIcsServer implements HttpHandler{
     private static void sendResponse(HttpExchange t, int statusCode, String contentType, String response){
         try(OutputStream os = t.getResponseBody()){
             t.getResponseHeaders().add("Content-Type", contentType);
+            System.out.println(response);
             byte[] responseBytes = response.getBytes(StandardCharsets.ISO_8859_1);
             t.sendResponseHeaders(statusCode, responseBytes.length);
             os.write(responseBytes);
@@ -49,7 +50,7 @@ public class DynamicIcsServer implements HttpHandler{
         cleaner.setResponseHandler(new ResponseHandler() {
             @Override
             public void onDone(String result) {
-                sendResponse(t, 200, "text/calendar", result);
+                sendResponse(t, 200, "text/calendar; charset=ISO-8859-1", result);
             }
 
             @Override

@@ -29,7 +29,7 @@ public class Main {
     }
 
     private void startHTTPServer() {
-        String port = System.getenv("PORT"); //für Heroku
+        String port = System.getenv("PORT"); //for Heroku
         if (port == null)
             port = "5000";
         try {
