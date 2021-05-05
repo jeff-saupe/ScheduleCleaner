@@ -56,7 +56,7 @@ public class Main {
 
         log.info("Alright. I'm starting to clean your messy schedule now..");
 
-        Cleaner cleaner = new Cleaner(centuria, semester, CleaningAction.CLEAN_AND_WRITE);
+        ScheduleCleaner cleaner = new ScheduleCleaner(centuria, semester, CleaningAction.CLEAN_AND_WRITE);
         cleaner.setResponseHandler(new ResponseHandler() {
             @Override
             public void onDone(String result) {

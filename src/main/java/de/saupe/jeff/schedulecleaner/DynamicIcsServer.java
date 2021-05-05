@@ -29,7 +29,7 @@ public class DynamicIcsServer implements HttpHandler {
             return;
         }
 
-        Cleaner cleaner = new Cleaner(centuria, semester, CleaningAction.CLEAN);
+        ScheduleCleaner cleaner = new ScheduleCleaner(centuria, semester, CleaningAction.CLEAN);
         cleaner.setResponseHandler(new ResponseHandler() {
             @Override
             public void onDone(String result) {

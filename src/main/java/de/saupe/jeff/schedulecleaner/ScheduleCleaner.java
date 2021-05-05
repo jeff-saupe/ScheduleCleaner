@@ -20,7 +20,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Log4j2
-public class Cleaner {
+public class ScheduleCleaner {
     @Setter
     private ResponseHandler responseHandler;
 
@@ -31,7 +31,7 @@ public class Cleaner {
     private final List<TitleUpdates> titleUpdates = new ArrayList<>();
     private final List<EventExclusion> eventExclusions = new ArrayList<>();
 
-    public Cleaner(String centuria, String semester, CleaningAction cleaningAction) {
+    public ScheduleCleaner(String centuria, String semester, CleaningAction cleaningAction) {
         this.centuria = centuria;
         this.semester = semester;
         this.cleaningAction = cleaningAction;
