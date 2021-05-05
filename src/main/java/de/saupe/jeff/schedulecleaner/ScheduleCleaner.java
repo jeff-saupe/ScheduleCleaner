@@ -3,7 +3,7 @@ package de.saupe.jeff.schedulecleaner;
 import de.saupe.jeff.schedulecleaner.components.CleaningAction;
 import de.saupe.jeff.schedulecleaner.components.fix.EventExclusion;
 import de.saupe.jeff.schedulecleaner.components.EventRange;
-import de.saupe.jeff.schedulecleaner.components.fix.TitleUpdates;
+import de.saupe.jeff.schedulecleaner.components.fix.TitleUpdate;
 import de.saupe.jeff.schedulecleaner.utils.Properties;
 import de.saupe.jeff.schedulecleaner.utils.Utils;
 import de.saupe.jeff.schedulecleaner.components.fix.Fix.FixMethod;
@@ -28,7 +28,7 @@ public class ScheduleCleaner {
     private final String semester;
     private final CleaningAction cleaningAction;
 
-    private final List<TitleUpdates> titleUpdates = new ArrayList<>();
+    private final List<TitleUpdate> titleUpdates = new ArrayList<>();
     private final List<EventExclusion> eventExclusions = new ArrayList<>();
 
     public ScheduleCleaner(String centuria, String semester, CleaningAction cleaningAction) {
@@ -44,7 +44,7 @@ public class ScheduleCleaner {
      */
     private void initOptionalFixes() {
         // Title renaming
-        titleUpdates.add(new TitleUpdates(FixMethod.CONTAINS, "Tech.Grundlagen der Informatik 2",
+        titleUpdates.add(new TitleUpdate(FixMethod.CONTAINS, "Tech.Grundlagen der Informatik 2",
                 "Tech. Grundlagen der Informatik 2"));
 
         // Event exclusions
@@ -141,7 +141,7 @@ public class ScheduleCleaner {
                 summary = stringBuilder.toString();
 
                 // Fixes
-                for (TitleUpdates titleUpdate : titleUpdates) {
+                for (TitleUpdate titleUpdate : titleUpdates) {
                     if (titleUpdate.check(summary)) {
                         summary = titleUpdate.getNewTitle();
                     }

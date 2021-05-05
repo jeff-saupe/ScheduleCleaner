@@ -1,8 +1,5 @@
 package de.saupe.jeff.schedulecleaner.components.fix;
 
-import lombok.AllArgsConstructor;
-
-@AllArgsConstructor
 public abstract class Fix {
 
     public enum FixMethod {
@@ -11,6 +8,11 @@ public abstract class Fix {
 
     private final FixMethod method;
     private final String text;
+
+    public Fix(FixMethod method, String text) {
+        this.method = method;
+        this.text = text.trim();
+    }
 
     public boolean check(final String line) {
         switch (method) {
