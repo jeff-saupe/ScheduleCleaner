@@ -43,12 +43,11 @@ public class ScheduleCleaner {
      * This is the place to add specific fixes by yourself.
      */
     private void initOptionalFixes() {
-        // Title renaming
-        titleUpdates.add(new TitleUpdate(FixMethod.CONTAINS, "Tech.Grundlagen der Informatik 2",
-                "Tech. Grundlagen der Informatik 2"));
+        // Example for a title renaming
+        //titleUpdates.add(new TitleUpdate(FixMethod.CONTAINS, "Tech.Grundlagen der Informatik 2", "TGdI"));
 
-        // Event exclusions
-        eventExclusions.add(new EventExclusion(FixMethod.CONTAINS, "O'Brien"));
+        // Example for an event exclusion
+        //eventExclusions.add(new EventExclusion(FixMethod.CONTAINS, "O'Brien"));
     }
 
     @SneakyThrows
