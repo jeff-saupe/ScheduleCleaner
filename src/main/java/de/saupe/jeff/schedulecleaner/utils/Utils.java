@@ -1,6 +1,8 @@
 package de.saupe.jeff.schedulecleaner.utils;
 
 import de.saupe.jeff.schedulecleaner.Main;
+import de.saupe.jeff.schedulecleaner.components.EventRange;
+import de.saupe.jeff.schedulecleaner.components.fix.TitleUpdate;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -9,8 +11,15 @@ import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.security.CodeSource;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Utils {
+
+    private static final Pattern titlePattern = Pattern.compile("(.*)(Veranstaltung:)(.*?)(\\\\n)");
+    private static final Pattern titleWithCodePattern = Pattern.compile("(.) (.[0-9]* )(.*)");
+    private static final Pattern titleWithoutCodePattern = Pattern.compile("(.) (.*)");
 
     public static void printBanner() {
         InputStream inputStream = Utils.class.getResourceAsStream(Properties.BANNER);
@@ -20,19 +29,37 @@ public class Utils {
         bufferedReader.lines().forEach(System.out::println);
     }
 
-    public static boolean hasModule(String summary) {
-        if (summary.length() <= 5) {
-            // Split into letters and numbers
-            String[] letters = summary.split("(?<=\\D)(?=\\d)");
+    public static String retrieveModuleFromDescription(String description) {
+        Matcher matcher = titlePattern.matcher(description);
+        if (matcher.find()) {
+            return matcher.group(3).trim();
+        }
+        return null;
+    }
 
-            if (letters.length == 2) {
-                // Check if the first part contains letters only and the second part numbers only
-                if (letters[0].matches("^[a-zA-Z]*$") && letters[1].matches("^[0-9]*$")) {
-                    return true;
-                }
+    public static String retrieveNameFromModule(String module) {
+        Matcher matcher;
+
+        matcher = titleWithCodePattern.matcher(module);
+        if (matcher.find()) {
+            return matcher.group(3);
+        }
+
+        matcher = titleWithoutCodePattern.matcher(module);
+        if (matcher.find()) {
+            return matcher.group(2);
+        }
+
+        return null;
+    }
+
+    public static int findIndexOfStartsWith(List<String> lines, EventRange eventRange, String text) {
+        for (int i = eventRange.getStart(); i <= eventRange.getStop(); i++) {
+            if (lines.get(i).startsWith(text)) {
+                return i;
             }
         }
-        return false;
+        return -1;
     }
 
     public static String capitalizeOnlyFirstLetter(String s) {

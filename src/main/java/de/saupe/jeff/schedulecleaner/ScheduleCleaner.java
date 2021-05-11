@@ -6,7 +6,6 @@ import de.saupe.jeff.schedulecleaner.components.EventRange;
 import de.saupe.jeff.schedulecleaner.components.fix.TitleUpdate;
 import de.saupe.jeff.schedulecleaner.utils.Properties;
 import de.saupe.jeff.schedulecleaner.utils.Utils;
-import de.saupe.jeff.schedulecleaner.components.fix.Fix.FixMethod;
 import lombok.Setter;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
@@ -109,46 +108,29 @@ public class ScheduleCleaner {
         if (eventRange.isExcluded())
             return;
 
-        for (int i = eventRange.getStart(); i <= eventRange.getStop(); i++) {
-            String line = lines.get(i);
+        int descriptionIndex = Utils.findIndexOfStartsWith(lines, eventRange, "DESCRIPTION:");
+        String description = descriptionIndex == -1 ? null : lines.get(descriptionIndex);
 
-            if (line.startsWith("SUMMARY:")) {
-                String summary = line.split(",")[1];
+        if (description != null) {
+            String module = Utils.retrieveModuleFromDescription(description);
 
-                // Split summary
-                List<String> summaryParts = Arrays.asList(summary.split(" "));
+            if (module != null) {
+                String summary = Utils.retrieveNameFromModule(module);
 
-                int summaryPosition = 0;
-                try {
-                    summaryPosition = Utils.hasModule(summaryParts.get(1)) ? 2 : 1;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                // Build summary
-                StringBuilder stringBuilder = new StringBuilder();
-
-                for (int j = summaryPosition; j < summaryParts.size(); j++) {
-                    stringBuilder.append(summaryParts.get(j).replace("\\", ""));
-
-                    if (j < summaryParts.size() - 1) {
-                        stringBuilder.append(" ");
+                if (summary != null) {
+                    // Fixes
+                    for (TitleUpdate titleUpdate : titleUpdates) {
+                        if (titleUpdate.check(summary)) {
+                            summary = titleUpdate.getNewTitle();
+                        }
                     }
+
+                    // Update line
+                    int summaryIndex = Utils.findIndexOfStartsWith(lines, eventRange, "SUMMARY:");
+                    lines.set(summaryIndex, "SUMMARY:" + summary);
                 }
-
-                // Update summary
-                summary = stringBuilder.toString();
-
-                // Fixes
-                for (TitleUpdate titleUpdate : titleUpdates) {
-                    if (titleUpdate.check(summary)) {
-                        summary = titleUpdate.getNewTitle();
-                    }
-                }
-
-                // Update line
-                lines.set(i, "SUMMARY:" + summary);
             }
+
         }
     }
 
