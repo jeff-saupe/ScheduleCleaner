@@ -35,6 +35,10 @@ public class Utils {
         return false;
     }
 
+    public static String capitalizeOnlyFirstLetter(String s) {
+        return s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
+    }
+
     public static String getJarPath() {
         CodeSource codeSource = Main.class.getProtectionDomain().getCodeSource();
         File jarFile = null;

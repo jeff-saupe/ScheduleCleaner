@@ -32,7 +32,7 @@ public class ScheduleCleaner {
     private final List<EventExclusion> eventExclusions = new ArrayList<>();
 
     public ScheduleCleaner(String centuria, String semester, CleaningAction cleaningAction) {
-        this.centuria = centuria;
+        this.centuria = Utils.capitalizeOnlyFirstLetter(centuria);
         this.semester = semester;
         this.cleaningAction = cleaningAction;
 
