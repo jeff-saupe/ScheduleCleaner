@@ -51,7 +51,7 @@ public class Main {
         log.info("What's your centuria?");
         String centuria = scanner.nextLine();
 
-        log.info("In which semester are you?");
+        log.info("In which semester (1-7) are you?");
         String semester = scanner.nextLine();
 
         log.info("Alright. I'm starting to clean your messy schedule now..");
