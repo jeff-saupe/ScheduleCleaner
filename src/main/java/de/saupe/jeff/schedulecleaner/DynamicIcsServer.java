@@ -11,7 +11,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class DynamicIcsServer implements HttpHandler {
-    private final Pattern URLPattern = Pattern.compile(".*/([A-Z][0-9]{2}[a-z])-([0-9])\\.ics");
+    private final Pattern URLPattern = Pattern.compile(".*/([a-zA-Z][0-9]{2}[a-zA-Z])-([0-9])\\.ics");
 
     @Override
     public void handle(HttpExchange exchange) {
