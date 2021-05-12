@@ -58,7 +58,7 @@ public class DynamicIcsServer implements HttpHandler {
 
     private static void sendNotFoundResponse(HttpExchange exchange) {
         sendResponse(exchange, 404, "text", "Wrong URL format. " +
-                "Example: /cleaned-schedule/<centuria>-<semester>.ics");
+                "Example: /cleaned-schedule/<centuria>_<semester>.ics");
     }
 
 }
