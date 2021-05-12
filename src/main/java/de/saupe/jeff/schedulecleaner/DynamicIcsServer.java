@@ -47,6 +47,7 @@ public class DynamicIcsServer implements HttpHandler {
     private static void sendResponse(HttpExchange exchange, int statusCode, String contentType, String response) {
         try (OutputStream outputStream = exchange.getResponseBody()) {
             exchange.getResponseHeaders().add("Content-Type", contentType);
+            exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
             System.out.println(response);
             byte[] responseBytes = response.getBytes(StandardCharsets.ISO_8859_1);
             exchange.sendResponseHeaders(statusCode, responseBytes.length);
