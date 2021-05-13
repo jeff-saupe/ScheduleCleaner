@@ -24,6 +24,10 @@ This option enables **live updates** on changes.
 **Alternative 2:**
 `https://schedule-cleaner.herokuapp.com/cleaned-schedule/<centuria>_<semester>.ics`
 
+**Note**: With Google Calendar, it can take up to [12 hours until the calendar is synchronised again.](https://support.google.com/calendar/answer/37100?hl=en&ref_topic=1672445/#:~:text=It%20might%20take%20up%20to%2012%20hours%20for%20changes%20to%20show%20in%20your%20Google%20Calendar.)
+
+
+
 ## Apply fixes for specific events
 Within the class `ScheduleCleaner.java` there is a method called `initOptionalFixes()`.
 There you can add two kind of fixes:
