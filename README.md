@@ -21,7 +21,7 @@ Adding the URL to your calendar application allows **live updates** on changes.
    - [Guide for Google Calendar](https://support.google.com/calendar/answer/37100#:~:text=Use%20a%20link%20to%20add%20a%20public%20calendar)
    - **Note**: With Google Calendar, it can take up to [12 hours until the calendar is synchronised again.](https://support.google.com/calendar/answer/37100?hl=en&ref_topic=1672445/#:~:text=It%20might%20take%20up%20to%2012%20hours%20for%20changes%20to%20show%20in%20your%20Google%20Calendar.)
 2. Use the following URL and replace **\<centuria\>** and **\<semester\>** with your corresponding details: <br>
-   - **Alternative 1:** `http://schedulecleaner.nak.coderesting.dev/cleaned-schedule/<centuria>_<semester>.ics` \
+   - **Alternative 1:** `http://schedulecleaner.nak.coderesting.dev/cleaned-schedule/<centuria>_<semester>.ics`
    - **Alternative 2:**
 `https://schedule-cleaner.herokuapp.com/cleaned-schedule/<centuria>_<semester>.ics`
 
