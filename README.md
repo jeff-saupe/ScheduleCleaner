@@ -7,25 +7,25 @@
 ## Usage
 There are two ways to use the ScheduleCleaner.
 
-### Option 1: Generate a local .ics file
+### Option 1: Generate a local .ics file via Command Line
 Download and start **run.bat** from the releases or execute the JAR via command line:
 
 `java -jar ScheduleCleaner.jar`
 
 The generated .ics file can be imported to your desired calendar application.
 
-### Option 2: Import  the schedule via URL
-This option enables **live updates** on changes.
+### Option 2: Import or download the schedule via URL
+Adding the URL to your calendar application allows **live updates** on changes.
 
 1. Within your calendar application, locate the settings where you can add a calendar from URL. <br>
-   [Guide for Google Calendar](https://support.google.com/calendar/answer/37100#:~:text=Use%20a%20link%20to%20add%20a%20public%20calendar)
+   - [Guide for Google Calendar](https://support.google.com/calendar/answer/37100#:~:text=Use%20a%20link%20to%20add%20a%20public%20calendar)
+   - **Note**: With Google Calendar, it can take up to [12 hours until the calendar is synchronised again.](https://support.google.com/calendar/answer/37100?hl=en&ref_topic=1672445/#:~:text=It%20might%20take%20up%20to%2012%20hours%20for%20changes%20to%20show%20in%20your%20Google%20Calendar.)
 2. Use the following URL and replace **\<centuria\>** and **\<semester\>** with your corresponding details: <br>
-**Alternative 1:** `http://schedulecleaner.nak.coderesting.dev/cleaned-schedule/<centuria>_<semester>.ics` \
-**Alternative 2:**
+   - **Alternative 1:** `http://schedulecleaner.nak.coderesting.dev/cleaned-schedule/<centuria>_<semester>.ics` \
+   - **Alternative 2:**
 `https://schedule-cleaner.herokuapp.com/cleaned-schedule/<centuria>_<semester>.ics`
 
-**Note**: With Google Calendar, it can take up to [12 hours until the calendar is synchronised again.](https://support.google.com/calendar/answer/37100?hl=en&ref_topic=1672445/#:~:text=It%20might%20take%20up%20to%2012%20hours%20for%20changes%20to%20show%20in%20your%20Google%20Calendar.)
-
+**The URL can also be used to download the ICS file.**
 
 
 ## Apply fixes for specific events
