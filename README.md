@@ -61,3 +61,7 @@ This fix will check for any events that **contain** the phrase `DozentXY` and ex
 ### FixMethod
 The following methods can be used for fixes:
 ``        CONTAINS, EQUALS, ENDS_WITH, STARTS_WITH``
+
+
+## Contribute
+Feel free to submit pull requests, open new issues or just spread the word about this [NAK Tool](https://nak.coderesting.dev/).
