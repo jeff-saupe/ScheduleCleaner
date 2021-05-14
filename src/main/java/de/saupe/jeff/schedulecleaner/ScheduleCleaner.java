@@ -1,8 +1,6 @@
 package de.saupe.jeff.schedulecleaner;
 
 import de.saupe.jeff.schedulecleaner.environment.ResponseHandler;
-import de.saupe.jeff.schedulecleaner.fixes.impl.ExcludeEvent;
-import de.saupe.jeff.schedulecleaner.fixes.impl.UpdateTitle;
 import de.saupe.jeff.schedulecleaner.misc.CleaningAction;
 import de.saupe.jeff.schedulecleaner.calendar.CalendarComponent;
 import de.saupe.jeff.schedulecleaner.calendar.CalendarComponent.ComponentType;
@@ -76,7 +74,7 @@ public class ScheduleCleaner {
 
         CalendarComponent calendar = null;
         try {
-            calendar = IcsBuilder.toComponent(url);
+            calendar = IcsBuilder.getCalendar(url);
         } catch (IOException e) {
             responseHandler.onError("Failed to read or parse the schedule. " +
                     "Check your centuria, semester and internet connection.\n" + e.getMessage());

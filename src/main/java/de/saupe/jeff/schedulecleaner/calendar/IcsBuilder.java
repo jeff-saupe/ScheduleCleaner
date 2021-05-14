@@ -23,7 +23,7 @@ public class IcsBuilder {
      *
      * @return List with all lines of the ICS file
      */
-    public static List<String> readLines(URL url) throws IOException {
+    public static List<String> getLines(URL url) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(
                 new InputStreamReader(url.openStream(), StandardCharsets.ISO_8859_1));
 
@@ -43,11 +43,11 @@ public class IcsBuilder {
         return lines;
     }
 
-    public static CalendarComponent toComponent(URL url) throws IOException {
-        return toComponent(readLines(url));
+    public static CalendarComponent getCalendar(URL url) throws IOException {
+        return getCalendar(getLines(url));
     }
 
-    public static CalendarComponent toComponent(List<String> lines) {
+    private static CalendarComponent getCalendar(List<String> lines) {
         CalendarComponent calendarComponent = null;
 
         while(true) {
@@ -68,7 +68,7 @@ public class IcsBuilder {
                         if (attributeName.equalsIgnoreCase("BEGIN")) {
                             // Add a new sub-component
                             lines.add(0, line); // Re-add "BEGIN"
-                            CalendarComponent subComponent = toComponent(lines);
+                            CalendarComponent subComponent = getCalendar(lines);
                             calendarComponent.getComponents().add(subComponent);
                         } else if(attributeName.equalsIgnoreCase("END")) {
                             return calendarComponent;
