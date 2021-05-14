@@ -4,6 +4,7 @@ import de.saupe.jeff.schedulecleaner.calendar.CalendarComponent;
 import de.saupe.jeff.schedulecleaner.calendar.exceptions.PropertyNotFoundException;
 import de.saupe.jeff.schedulecleaner.fixes.Fix;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
 
@@ -11,15 +12,10 @@ import java.util.Map;
 
 @Log4j2
 public class UpdateTitle implements Fix {
-    @Getter
-    private final String oldTitle;
-    @Getter
-    private final String newTitle;
-
-    public UpdateTitle(String oldTitle, String newTitle) {
-        this.oldTitle = oldTitle;
-        this.newTitle = newTitle;
-    }
+    @Getter @Setter
+    private String oldTitle;
+    @Getter @Setter
+    private String newTitle;
 
     @Override
     public void apply(CalendarComponent event) {

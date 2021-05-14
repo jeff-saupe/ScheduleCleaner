@@ -2,17 +2,21 @@ package de.saupe.jeff.schedulecleaner.fixes.impl;
 
 import de.saupe.jeff.schedulecleaner.calendar.CalendarComponent;
 import de.saupe.jeff.schedulecleaner.fixes.Fix;
-import lombok.NonNull;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class ExcludeEvent implements Fix {
-    private final List<String> parameters;
+    private final List<String> parameters = new ArrayList<>();
 
-    public ExcludeEvent(@NonNull String... parameters) {
-        this.parameters = Arrays.asList(parameters);
+    public void addParameter(String parameter) {
+        this.parameters.add(parameter);
+    }
+
+    public void addParameters(String... parameters) {
+        this.parameters.addAll(Arrays.asList(parameters));
     }
 
     @Override

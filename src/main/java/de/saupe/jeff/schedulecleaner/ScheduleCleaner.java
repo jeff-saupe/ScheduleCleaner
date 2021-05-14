@@ -1,6 +1,8 @@
 package de.saupe.jeff.schedulecleaner;
 
 import de.saupe.jeff.schedulecleaner.environment.ResponseHandler;
+import de.saupe.jeff.schedulecleaner.fixes.impl.ExcludeEvent;
+import de.saupe.jeff.schedulecleaner.fixes.impl.UpdateTitle;
 import de.saupe.jeff.schedulecleaner.misc.CleaningAction;
 import de.saupe.jeff.schedulecleaner.calendar.CalendarComponent;
 import de.saupe.jeff.schedulecleaner.calendar.CalendarComponent.ComponentTypes;
@@ -46,17 +48,26 @@ public class ScheduleCleaner {
      * This is the place to add specific fixes by yourself.
      */
     private void initFixes() {
-        // Title cleaning
-        fixes.add(new CleanTitle());
+        // [Default] Title cleaning
+        addFix(new CleanTitle());
 
-        // Add room as location
-        fixes.add(new AddLocation());
+        // [Default] Add room as location
+        addFix(new AddLocation());
 
-        // Example for a title renaming
-        //fixes.add(new UpdateTitle("Tech.Grundlagen der Informatik 2", "Technische Grundlagen der Informatik 2"));
+        // [Example] Title renaming
+//        UpdateTitle updateTitle = new UpdateTitle();
+//        updateTitle.setOldTitle("Tech.Grundlagen der Informatik 2");
+//        updateTitle.setNewTitle("Technische Grundlagen der Informatik 2");
+//        addFix(updateTitle);
 
-        // Example for an event exclusion
-        //fixes.add(new ExcludeEvent("O'Brien"));
+        // [Example] Event exclusion
+//        ExcludeEvent excludeEvent = new ExcludeEvent();
+//        excludeEvent.addParameter("O'Brien");
+//        addFix(excludeEvent);
+    }
+
+    public void addFix(Fix fix) {
+        fixes.add(fix);
     }
 
     @SneakyThrows
