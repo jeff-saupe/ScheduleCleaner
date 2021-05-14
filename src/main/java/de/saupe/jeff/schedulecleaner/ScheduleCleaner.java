@@ -5,8 +5,8 @@ import de.saupe.jeff.schedulecleaner.components.calendar.CalendarComponent;
 import de.saupe.jeff.schedulecleaner.components.calendar.CalendarComponent.ComponentTypes;
 import de.saupe.jeff.schedulecleaner.components.calendar.IcsBuilder;
 import de.saupe.jeff.schedulecleaner.components.fixes.Fix;
-import de.saupe.jeff.schedulecleaner.components.fixes.impl.LocationAdd;
-import de.saupe.jeff.schedulecleaner.components.fixes.impl.TitleClean;
+import de.saupe.jeff.schedulecleaner.components.fixes.impl.AddLocation;
+import de.saupe.jeff.schedulecleaner.components.fixes.impl.CleanTitle;
 import de.saupe.jeff.schedulecleaner.utils.Properties;
 import de.saupe.jeff.schedulecleaner.utils.Utils;
 import lombok.Setter;
@@ -46,16 +46,16 @@ public class ScheduleCleaner {
      */
     private void initFixes() {
         // Title cleaning
-        fixes.add(new TitleClean());
+        fixes.add(new CleanTitle());
 
         // Add room as location
-        fixes.add(new LocationAdd());
+        fixes.add(new AddLocation());
 
         // Example for a title renaming
-        //fixes.add(new TitleUpdate("Tech.Grundlagen der Informatik 2", "Technische Grundlagen der Informatik 2"));
+        //fixes.add(new UpdateTitle("Tech.Grundlagen der Informatik 2", "Technische Grundlagen der Informatik 2"));
 
         // Example for an event exclusion
-        //fixes.add(new EventExclusion("O'Brien"));
+        //fixes.add(new ExcludeEvent("O'Brien"));
     }
 
     @SneakyThrows

@@ -10,7 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Log4j2
-public class LocationAdd implements Fix {
+public class AddLocation implements Fix {
     private static final Pattern roomPattern = Pattern.compile("(.*)(Raum:)(.*?)(\\\\n)");
 
     @Override

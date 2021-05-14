@@ -39,8 +39,8 @@ There you can add two types of fixes:
 This fix is used to update / rename the title of an event. _(In the ICS context, this is known as the summary.)_
 
 ```java
-TitleUpdate titleUpdate = new TitleUpdate("Tech.Grundlagen der Informatik 2", "TGdI");
-fixes.add(titleUpdate);
+UpdateTitle updateTitle = new UpdateTitle("Tech.Grundlagen der Informatik 2", "TGdI");
+fixes.add(updateTitle);
 ```
 
 This fix will check for any events whose title (summary) **contains** the phrase `Tech.Grundlagen der Informatik 2` and replaces it with `TGdI`.
@@ -49,8 +49,8 @@ This fix will check for any events whose title (summary) **contains** the phrase
 This fix is used to exclude a specific event.
 
 ```java
-EventExclusion eventExclusion = new EventExclusion("Text1", ...); // An infinite amount of parameters can be used here by seperating them with commas
-fixes.add(eventExclusion);
+ExcludeEvent excludeEvent = new ExcludeEvent("Text1", ...); // An infinite amount of parameters can be used here by seperating them with commas
+fixes.add(excludeEvent);
 ```
 
 This fix will exclude any events that **contain** the phrases `Text1` **and**, if provided, all other distributed parameters.

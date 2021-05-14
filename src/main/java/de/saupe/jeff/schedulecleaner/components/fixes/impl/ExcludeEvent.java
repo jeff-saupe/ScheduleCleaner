@@ -8,10 +8,10 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.Arrays;
 import java.util.List;
 
-public class EventExclusion implements Fix {
+public class ExcludeEvent implements Fix {
     private final List<String> parameters;
 
-    public EventExclusion(@NonNull String... parameters) {
+    public ExcludeEvent(@NonNull String... parameters) {
         this.parameters = Arrays.asList(parameters);
     }
 

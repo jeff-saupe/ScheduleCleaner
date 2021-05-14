@@ -10,13 +10,13 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.Map;
 
 @Log4j2
-public class TitleUpdate implements Fix {
+public class UpdateTitle implements Fix {
     @Getter
     private final String oldTitle;
     @Getter
     private final String newTitle;
 
-    public TitleUpdate(String oldTitle, String newTitle) {
+    public UpdateTitle(String oldTitle, String newTitle) {
         this.oldTitle = oldTitle;
         this.newTitle = newTitle;
     }

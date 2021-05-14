@@ -10,7 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Log4j2
-public class TitleClean implements Fix {
+public class CleanTitle implements Fix {
     private static final Pattern titlePattern = Pattern.compile("(.*)(Veranstaltung:)(.*?)(\\\\n)");
     private static final Pattern titleWithCodePattern = Pattern.compile("(.) (.[0-9]* )(.*)");
     private static final Pattern titleWithoutCodePattern = Pattern.compile("(.) (.*)");
