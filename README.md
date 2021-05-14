@@ -10,14 +10,7 @@
 ## 📖 Usage
 There are two ways to use the **Schedule Cleaner**.
 
-### Option 1: Generate a local .ics file via Command Line
-Download and start **run.bat** from the releases or execute the JAR via command line:
-
-`java -jar ScheduleCleaner.jar`
-
-The generated .ics file can be imported to your desired calendar application.
-
-### Option 2: Import or download the schedule via URL
+### Option 1: Import or download the schedule via URL
 Adding the URL to your calendar application allows **live updates** on changes.
 
 1. Within your calendar application, locate the settings where you can add a calendar by URL. <br>
@@ -30,6 +23,12 @@ Adding the URL to your calendar application allows **live updates** on changes.
 
 **The URL can also just be used to download the ICS file.**
 
+### Option 2: Build the .ics file locally via Command Line
+Download and start **run.bat** from the releases or execute the JAR via command line:
+
+`java -jar ScheduleCleaner.jar`
+
+The generated .ics file can be imported to your desired calendar application.
 
 ## 🛠️ Apply additional fixes
 Within the class `ScheduleCleaner.java` there is a method called `initFixes()`.
