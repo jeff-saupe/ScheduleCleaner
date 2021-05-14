@@ -10,39 +10,14 @@ import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.security.CodeSource;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Utils {
-
-    private static final Pattern titlePattern = Pattern.compile("(.*)(Veranstaltung:)(.*?)(\\\\n)");
-    private static final Pattern titleWithCodePattern = Pattern.compile("(.) (.[0-9]* )(.*)");
-    private static final Pattern titleWithoutCodePattern = Pattern.compile("(.) (.*)");
-
     public static void printBanner() {
         InputStream inputStream = Utils.class.getResourceAsStream(Properties.BANNER);
         assert inputStream != null;
 
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.ISO_8859_1));
         bufferedReader.lines().forEach(System.out::println);
-    }
-
-    public static String findTitleInDescription(String description) {
-        Matcher matcher = titlePattern.matcher(description);
-        if (matcher.find()) {
-            String module = matcher.group(3).trim();
-
-            matcher = titleWithCodePattern.matcher(module);
-            if (matcher.find()) {
-                return matcher.group(3);
-            }
-
-            matcher = titleWithoutCodePattern.matcher(module);
-            if (matcher.find()) {
-                return matcher.group(2);
-            }
-        }
-        return null;
     }
 
     public static String capitalizeOnlyFirstLetter(String s) {
