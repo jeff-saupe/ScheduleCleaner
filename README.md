@@ -1,11 +1,14 @@
-# ScheduleCleaner
+# 🗓️ Schedule Cleaner
 
 [![NAK Tools](https://img.shields.io/badge/NAK%20Tools-member-blue)](https://nak.coderesting.dev/)
+[![License](https://img.shields.io/badge/license-MIT-brightgreen)](https://github.com/jeff-saupe/ScheduleCleaner/blob/master/LICENSE)
+[![Issues](https://img.shields.io/github/issues/jeff-saupe/ScheduleCleaner)](https://github.com/jeff-saupe/ScheduleCleaner/issues)
+[![Tag](https://img.shields.io/github/v/release/jeff-saupe/ScheduleCleaner)](https://github.com/jeff-saupe/ScheduleCleaner/releases)
 
 ![Comparison](comparison.gif)
 
-## Usage
-There are two ways to use the ScheduleCleaner.
+## 📖 Usage
+There are two ways to use the **Schedule Cleaner**.
 
 ### Option 1: Generate a local .ics file via Command Line
 Download and start **run.bat** from the releases or execute the JAR via command line:
@@ -28,7 +31,7 @@ Adding the URL to your calendar application allows **live updates** on changes.
 **The URL can also be used to download the ICS file.**
 
 
-## Apply fixes for specific events
+## 🛠️ Apply fixes for specific events
 Within the class `ScheduleCleaner.java` there is a method called `initOptionalFixes()`.
 There you can add two kind of fixes:
 
@@ -63,5 +66,5 @@ The following methods can be used for fixes:
 ``        CONTAINS, EQUALS, ENDS_WITH, STARTS_WITH``
 
 
-## Contribute
+## 💡 Contribute
 Feel free to submit pull requests, open new issues or just spread the word about this [NAK Tool](https://nak.coderesting.dev/).
