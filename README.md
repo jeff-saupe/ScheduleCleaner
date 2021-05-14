@@ -35,7 +35,7 @@ Adding the URL to your calendar application allows **live updates** on changes.
 Within the class `ScheduleCleaner.java` there is a method called `initFixes()`.
 There you can add two types of fixes:
 
-### TitleUpdate
+### Update a title
 This fix is used to update / rename the title of an event. _(In the ICS context, this is known as the summary.)_
 
 ```java
@@ -45,7 +45,7 @@ fixes.add(updateTitle);
 
 This fix will check for any events whose title (summary) **contains** the phrase `Tech.Grundlagen der Informatik 2` and replaces it with `TGdI`.
 
-### EventExclusion
+### Exclude an event
 This fix is used to exclude a specific event.
 
 ```java
