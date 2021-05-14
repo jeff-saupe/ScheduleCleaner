@@ -1,8 +1,14 @@
 package de.saupe.jeff.schedulecleaner.components.fix;
 
+import de.saupe.jeff.schedulecleaner.components.calendar.CalendarComponent;
+import de.saupe.jeff.schedulecleaner.components.calendar.exceptions.PropertyNotFoundException;
 import lombok.Getter;
+import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.Map;
+
+@Log4j2
 public class TitleUpdate implements Fix {
     @Getter
     private final String oldTitle;
@@ -15,7 +21,17 @@ public class TitleUpdate implements Fix {
     }
 
     @Override
-    public boolean check(String text) {
-        return StringUtils.containsIgnoreCase(text, oldTitle);
+    public void apply(CalendarComponent event) {
+        Map.Entry<String, String> titleProperty = null;
+        try {
+            titleProperty = event.getEntry("SUMMARY");
+
+            String currentTitle = titleProperty.getValue();
+            if (StringUtils.containsIgnoreCase(currentTitle, oldTitle)) {
+                titleProperty.setValue(newTitle);
+            }
+        } catch (PropertyNotFoundException e) {
+            log.error(e.getMessage());
+        }
     }
 }

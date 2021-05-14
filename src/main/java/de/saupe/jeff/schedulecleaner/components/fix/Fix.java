@@ -1,5 +1,7 @@
 package de.saupe.jeff.schedulecleaner.components.fix;
 
+import de.saupe.jeff.schedulecleaner.components.calendar.CalendarComponent;
+
 public interface Fix {
-    boolean check(String text);
+    void apply(CalendarComponent event);
 }

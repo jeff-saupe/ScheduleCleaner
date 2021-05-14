@@ -1,9 +1,12 @@
 package de.saupe.jeff.schedulecleaner;
 
 import de.saupe.jeff.schedulecleaner.components.CleaningAction;
+import de.saupe.jeff.schedulecleaner.components.calendar.CalendarComponent;
+import de.saupe.jeff.schedulecleaner.components.calendar.CalendarComponent.ComponentTypes;
+import de.saupe.jeff.schedulecleaner.components.calendar.IcsBuilder;
 import de.saupe.jeff.schedulecleaner.components.fix.EventExclusion;
-import de.saupe.jeff.schedulecleaner.components.EventRange;
 import de.saupe.jeff.schedulecleaner.components.fix.Fix;
+import de.saupe.jeff.schedulecleaner.components.fix.TitleClean;
 import de.saupe.jeff.schedulecleaner.components.fix.TitleUpdate;
 import de.saupe.jeff.schedulecleaner.utils.Properties;
 import de.saupe.jeff.schedulecleaner.utils.Utils;
@@ -11,12 +14,14 @@ import lombok.Setter;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Log4j2
 public class ScheduleCleaner {
@@ -34,50 +39,50 @@ public class ScheduleCleaner {
         this.semester = semester;
         this.cleaningAction = cleaningAction;
 
-        initOptionalFixes();
+        initFixes();
     }
 
     /**
      * This is the place to add specific fixes by yourself.
      */
-    private void initOptionalFixes() {
+    private void initFixes() {
+        // Title cleaning
+        fixes.add(new TitleClean());
+
         // Example for a title renaming
-        fixes.add(new TitleUpdate("Tech.Grundlagen der Informatik 2", "TGdI"));
+        //fixes.add(new TitleUpdate("Tech.Grundlagen der Informatik 2", "Technische Grundlagen der Informatik 2"));
 
         // Example for an event exclusion
-        fixes.add(new EventExclusion("O'Brien"));
+        //fixes.add(new EventExclusion("O'Brien"));
     }
 
     @SneakyThrows
     public void clean() {
-        List<String> lines = null;
+        URL url = new URL(String.format(Properties.URL_ICS, centuria, semester));
+
+        CalendarComponent calendar = null;
         try {
-            lines = IcsHelper.readLines(new URL(String.format(Properties.URL_ICS, centuria, semester)));
+            calendar = IcsBuilder.toComponent(url);
         } catch (IOException e) {
-            responseHandler.onError("Failed to read the schedule. " +
+            responseHandler.onError("Failed to read or parse the schedule. " +
                     "Check your centuria, semester and internet connection.\n" + e.getMessage());
             return;
         }
 
-        List<EventRange> eventRanges = IcsHelper.readEventRanges(lines);
+        List<CalendarComponent> events = calendar.getSubComponents()
+                .stream()
+                .filter(component -> component.getType() == ComponentTypes.VEVENT)
+                .collect(Collectors.toList());
 
-        // Apply the optional fixes
-        for (EventRange eventRange : eventRanges) {
-            updateTitles(lines, eventRange);
-            excludeEvents(lines, eventRange);
-        }
-
-        // Remove lines of excluded events
-        // To avoid line shifts caused by removing lines, it is read from bottom to top
-        Collections.reverse(eventRanges);
-        for (EventRange eventRange : eventRanges) {
-            if (eventRange.isExcluded()) {
-                lines.subList(eventRange.getStart(), eventRange.getStop() + 1).clear();
+        // Apply fixes
+        for (CalendarComponent event : events) {
+            for (Fix fix : fixes) {
+                fix.apply(event);
             }
         }
 
         // Build ICS file
-        String ics = IcsHelper.build(lines);
+        String ics = calendar.toString();
 
         switch (cleaningAction) {
             case CLEAN:
@@ -94,65 +99,6 @@ public class ScheduleCleaner {
                 break;
             default:
                 responseHandler.onError("Unknown cleaning action.");
-        }
-    }
-
-    /**
-     * Update the summaries, so the titles, of specific and non-excluded events
-     *
-     * @param lines      All lines of the current ICS file
-     * @param eventRange All event ranges
-     */
-    private void updateTitles(List<String> lines, EventRange eventRange) {
-        if (eventRange.isExcluded())
-            return;
-
-        int descriptionIndex = Utils.findIndexOfStartsWith(lines, eventRange, "DESCRIPTION:");
-        String description = descriptionIndex == -1 ? null : lines.get(descriptionIndex);
-
-        if (description != null) {
-            String title = Utils.findTitleInDescription(description);
-
-            if (title != null) {
-                // Fixes
-                for (Fix fix : fixes) {
-                    if (fix instanceof TitleUpdate) {
-                        TitleUpdate titleUpdate = (TitleUpdate) fix;
-
-                        if (titleUpdate.check(title)) {
-                            title = titleUpdate.getNewTitle();
-                        }
-                    }
-                }
-
-                // Update line
-                int summaryIndex = Utils.findIndexOfStartsWith(lines, eventRange, "SUMMARY:");
-                lines.set(summaryIndex, "SUMMARY:" + title);
-            }
-
-        }
-    }
-
-    /**
-     * Exclude specific events from the new ICS file
-     *
-     * @param lines      All lines of the current ICS file
-     * @param eventRange All event ranges
-     */
-    private void excludeEvents(List<String> lines, EventRange eventRange) {
-        StringBuilder line = new StringBuilder();
-        for (int i = eventRange.getStart(); i <= eventRange.getStop(); i++) {
-            line.append(lines.get(i));
-        }
-
-        // Fixes
-        for (Fix fix : fixes) {
-            if (fix instanceof EventExclusion) {
-                EventExclusion eventExclusion = (EventExclusion) fix;
-
-                boolean exclude = eventExclusion.check(line.toString());
-                eventRange.setExcluded(exclude);
-            }
         }
     }
 }

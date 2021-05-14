@@ -1,5 +1,6 @@
 package de.saupe.jeff.schedulecleaner.components.fix;
 
+import de.saupe.jeff.schedulecleaner.components.calendar.CalendarComponent;
 import lombok.NonNull;
 import org.apache.commons.lang3.StringUtils;
 
@@ -14,8 +15,13 @@ public class EventExclusion implements Fix {
     }
 
     @Override
-    public boolean check(String text) {
-        // ALL parameters have to be included in the text.
+    public void apply(CalendarComponent event) {
+        boolean exclude = check(event);
+        event.setExcluded(exclude);
+    }
+
+    public boolean check(CalendarComponent event) {
+        String text = event.toString();
         for (String parameter : parameters) {
             if (!StringUtils.containsIgnoreCase(text, parameter)) return false;
         }

@@ -71,4 +71,14 @@ public class Utils {
         return jarFile.getParentFile().getPath();
     }
 
+    public static boolean hasNext(List<String> lines) {
+        return lines.size() > 0;
+    }
+
+    public static String next(List<String> lines) {
+        String line = lines.get(0);
+        lines.remove(0);
+        return line;
+    }
+
 }
