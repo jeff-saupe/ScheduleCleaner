@@ -6,6 +6,8 @@ import de.saupe.jeff.schedulecleaner.calendar.CalendarBuilder;
 import de.saupe.jeff.schedulecleaner.fixes.Fix;
 import de.saupe.jeff.schedulecleaner.fixes.impl.AddLocation;
 import de.saupe.jeff.schedulecleaner.fixes.impl.CleanTitle;
+import de.saupe.jeff.schedulecleaner.fixes.impl.ExcludeEvent;
+import de.saupe.jeff.schedulecleaner.fixes.impl.UpdateTitle;
 import de.saupe.jeff.schedulecleaner.misc.Properties;
 import de.saupe.jeff.schedulecleaner.misc.Utils;
 import lombok.Setter;
@@ -63,7 +65,7 @@ public class ScheduleCleaner {
 
         // [Example] Event exclusion
 //        ExcludeEvent excludeEvent = new ExcludeEvent();
-//        excludeEvent.addParameter("O'Brien");
+//        excludeEvent.addParameters("O'Brien", "Englisch");
 //        addFix(excludeEvent);
     }
 
