@@ -1,25 +1,35 @@
 package de.saupe.jeff.schedulecleaner;
 
-import de.saupe.jeff.schedulecleaner.components.CleaningAction;
-import de.saupe.jeff.schedulecleaner.components.fix.EventExclusion;
-import de.saupe.jeff.schedulecleaner.components.EventRange;
-import de.saupe.jeff.schedulecleaner.components.fix.TitleUpdate;
-import de.saupe.jeff.schedulecleaner.utils.Properties;
-import de.saupe.jeff.schedulecleaner.utils.Utils;
+import de.saupe.jeff.schedulecleaner.calendar.CalendarComponent;
+import de.saupe.jeff.schedulecleaner.calendar.CalendarComponent.ComponentType;
+import de.saupe.jeff.schedulecleaner.calendar.CalendarBuilder;
+import de.saupe.jeff.schedulecleaner.fixes.Fix;
+import de.saupe.jeff.schedulecleaner.fixes.impl.AddLocation;
+import de.saupe.jeff.schedulecleaner.fixes.impl.CleanTitle;
+import de.saupe.jeff.schedulecleaner.fixes.impl.ExcludeEvent;
+import de.saupe.jeff.schedulecleaner.fixes.impl.UpdateTitle;
+import de.saupe.jeff.schedulecleaner.misc.Properties;
+import de.saupe.jeff.schedulecleaner.misc.Utils;
 import lombok.Setter;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Log4j2
 public class ScheduleCleaner {
+    public enum CleaningAction {
+        CLEAN,
+        CLEAN_AND_WRITE
+    }
+
     @Setter
     private ResponseHandler responseHandler;
 
@@ -27,58 +37,69 @@ public class ScheduleCleaner {
     private final String semester;
     private final CleaningAction cleaningAction;
 
-    private final List<TitleUpdate> titleUpdates = new ArrayList<>();
-    private final List<EventExclusion> eventExclusions = new ArrayList<>();
+    private final List<Fix> fixes = new ArrayList<>();
 
     public ScheduleCleaner(String centuria, String semester, CleaningAction cleaningAction) {
         this.centuria = Utils.capitalizeOnlyFirstLetter(centuria);
         this.semester = semester;
         this.cleaningAction = cleaningAction;
 
-        initOptionalFixes();
+        initFixes();
     }
 
     /**
      * This is the place to add specific fixes by yourself.
      */
-    private void initOptionalFixes() {
-        // Example for a title renaming
-        //titleUpdates.add(new TitleUpdate(FixMethod.CONTAINS, "Tech.Grundlagen der Informatik 2", "TGdI"));
+    private void initFixes() {
+        // [Default] Title cleaning
+        addFix(new CleanTitle());
 
-        // Example for an event exclusion
-        //eventExclusions.add(new EventExclusion(FixMethod.CONTAINS, "O'Brien"));
+        // [Default] Add room as location
+        addFix(new AddLocation());
+
+        // [Example] Title renaming
+//        UpdateTitle updateTitle = new UpdateTitle();
+//        updateTitle.setOldTitle("Tech.Grundlagen der Informatik 2");
+//        updateTitle.setNewTitle("Technische Grundlagen der Informatik 2");
+//        addFix(updateTitle);
+
+        // [Example] Event exclusion
+//        ExcludeEvent excludeEvent = new ExcludeEvent();
+//        excludeEvent.addParameters("O'Brien", "Englisch");
+//        addFix(excludeEvent);
+    }
+
+    public void addFix(Fix fix) {
+        fixes.add(fix);
     }
 
     @SneakyThrows
     public void clean() {
-        List<String> lines = null;
+        URL url = new URL(String.format(Properties.URL_ICS, centuria, semester));
+
+        CalendarComponent calendar = null;
         try {
-            lines = IcsHelper.readLines(new URL(String.format(Properties.URL_ICS, centuria, semester)));
+            calendar = CalendarBuilder.getCalendar(url);
         } catch (IOException e) {
-            responseHandler.onError("Failed to read the schedule. " +
+            responseHandler.onError("Failed to read or parse the schedule. " +
                     "Check your centuria, semester and internet connection.\n" + e.getMessage());
             return;
         }
 
-        List<EventRange> eventRanges = IcsHelper.readEventRanges(lines);
+        List<CalendarComponent> events = calendar.getComponents()
+                .stream()
+                .filter(component -> component.getType() == ComponentType.VEVENT)
+                .collect(Collectors.toList());
 
-        // Apply the optional fixes
-        for (EventRange eventRange : eventRanges) {
-            updateTitles(lines, eventRange);
-            excludeEvents(lines, eventRange);
-        }
-
-        // Remove lines of excluded events
-        // To avoid line shifts caused by removing lines, it is read from bottom to top
-        Collections.reverse(eventRanges);
-        for (EventRange eventRange : eventRanges) {
-            if (eventRange.isExcluded()) {
-                lines.subList(eventRange.getStart(), eventRange.getStop() + 1).clear();
+        // Apply fixes
+        for (CalendarComponent event : events) {
+            for (Fix fix : fixes) {
+                fix.apply(event);
             }
         }
 
         // Build ICS file
-        String ics = IcsHelper.build(lines);
+        String ics = calendar.toString();
 
         switch (cleaningAction) {
             case CLEAN:
@@ -95,59 +116,6 @@ public class ScheduleCleaner {
                 break;
             default:
                 responseHandler.onError("Unknown cleaning action.");
-        }
-    }
-
-    /**
-     * Update the summaries, so the titles, of specific and non-excluded events
-     *
-     * @param lines      All lines of the current ICS file
-     * @param eventRange All event ranges
-     */
-    private void updateTitles(List<String> lines, EventRange eventRange) {
-        if (eventRange.isExcluded())
-            return;
-
-        int descriptionIndex = Utils.findIndexOfStartsWith(lines, eventRange, "DESCRIPTION:");
-        String description = descriptionIndex == -1 ? null : lines.get(descriptionIndex);
-
-        if (description != null) {
-            String module = Utils.retrieveModuleFromDescription(description);
-
-            if (module != null) {
-                String summary = Utils.retrieveNameFromModule(module);
-
-                if (summary != null) {
-                    // Fixes
-                    for (TitleUpdate titleUpdate : titleUpdates) {
-                        if (titleUpdate.check(summary)) {
-                            summary = titleUpdate.getNewTitle();
-                        }
-                    }
-
-                    // Update line
-                    int summaryIndex = Utils.findIndexOfStartsWith(lines, eventRange, "SUMMARY:");
-                    lines.set(summaryIndex, "SUMMARY:" + summary);
-                }
-            }
-
-        }
-    }
-
-    /**
-     * Exclude specific events from the new ICS file
-     *
-     * @param lines      All lines of the current ICS file
-     * @param eventRange All event ranges
-     */
-    private void excludeEvents(List<String> lines, EventRange eventRange) {
-        for (int i = eventRange.getStart(); i <= eventRange.getStop(); i++) {
-            String line = lines.get(i);
-
-            eventExclusions.forEach(fix -> {
-                boolean exclude = fix.check(line);
-                eventRange.setExcluded(exclude);
-            });
         }
     }
 }
