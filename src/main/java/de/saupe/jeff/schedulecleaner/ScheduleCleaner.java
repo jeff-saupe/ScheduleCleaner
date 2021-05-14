@@ -5,6 +5,7 @@ import de.saupe.jeff.schedulecleaner.components.calendar.CalendarComponent;
 import de.saupe.jeff.schedulecleaner.components.calendar.CalendarComponent.ComponentTypes;
 import de.saupe.jeff.schedulecleaner.components.calendar.IcsBuilder;
 import de.saupe.jeff.schedulecleaner.components.fixes.Fix;
+import de.saupe.jeff.schedulecleaner.components.fixes.impl.LocationAdd;
 import de.saupe.jeff.schedulecleaner.components.fixes.impl.TitleClean;
 import de.saupe.jeff.schedulecleaner.utils.Properties;
 import de.saupe.jeff.schedulecleaner.utils.Utils;
@@ -46,6 +47,9 @@ public class ScheduleCleaner {
     private void initFixes() {
         // Title cleaning
         fixes.add(new TitleClean());
+
+        // Add room as location
+        fixes.add(new LocationAdd());
 
         // Example for a title renaming
         //fixes.add(new TitleUpdate("Tech.Grundlagen der Informatik 2", "Technische Grundlagen der Informatik 2"));
