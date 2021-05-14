@@ -3,6 +3,7 @@ package de.saupe.jeff.schedulecleaner;
 import de.saupe.jeff.schedulecleaner.components.CleaningAction;
 import de.saupe.jeff.schedulecleaner.components.fix.EventExclusion;
 import de.saupe.jeff.schedulecleaner.components.EventRange;
+import de.saupe.jeff.schedulecleaner.components.fix.Fix;
 import de.saupe.jeff.schedulecleaner.components.fix.TitleUpdate;
 import de.saupe.jeff.schedulecleaner.utils.Properties;
 import de.saupe.jeff.schedulecleaner.utils.Utils;
@@ -14,7 +15,6 @@ import java.io.*;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -27,8 +27,7 @@ public class ScheduleCleaner {
     private final String semester;
     private final CleaningAction cleaningAction;
 
-    private final List<TitleUpdate> titleUpdates = new ArrayList<>();
-    private final List<EventExclusion> eventExclusions = new ArrayList<>();
+    private final List<Fix> fixes = new ArrayList<>();
 
     public ScheduleCleaner(String centuria, String semester, CleaningAction cleaningAction) {
         this.centuria = Utils.capitalizeOnlyFirstLetter(centuria);
@@ -43,10 +42,10 @@ public class ScheduleCleaner {
      */
     private void initOptionalFixes() {
         // Example for a title renaming
-        //titleUpdates.add(new TitleUpdate(FixMethod.CONTAINS, "Tech.Grundlagen der Informatik 2", "TGdI"));
+        fixes.add(new TitleUpdate("Tech.Grundlagen der Informatik 2", "TGdI"));
 
         // Example for an event exclusion
-        //eventExclusions.add(new EventExclusion(FixMethod.CONTAINS, "O'Brien"));
+        fixes.add(new EventExclusion("O'Brien"));
     }
 
     @SneakyThrows
@@ -112,23 +111,23 @@ public class ScheduleCleaner {
         String description = descriptionIndex == -1 ? null : lines.get(descriptionIndex);
 
         if (description != null) {
-            String module = Utils.retrieveModuleFromDescription(description);
+            String title = Utils.findTitleInDescription(description);
 
-            if (module != null) {
-                String summary = Utils.retrieveNameFromModule(module);
+            if (title != null) {
+                // Fixes
+                for (Fix fix : fixes) {
+                    if (fix instanceof TitleUpdate) {
+                        TitleUpdate titleUpdate = (TitleUpdate) fix;
 
-                if (summary != null) {
-                    // Fixes
-                    for (TitleUpdate titleUpdate : titleUpdates) {
-                        if (titleUpdate.check(summary)) {
-                            summary = titleUpdate.getNewTitle();
+                        if (titleUpdate.check(title)) {
+                            title = titleUpdate.getNewTitle();
                         }
                     }
-
-                    // Update line
-                    int summaryIndex = Utils.findIndexOfStartsWith(lines, eventRange, "SUMMARY:");
-                    lines.set(summaryIndex, "SUMMARY:" + summary);
                 }
+
+                // Update line
+                int summaryIndex = Utils.findIndexOfStartsWith(lines, eventRange, "SUMMARY:");
+                lines.set(summaryIndex, "SUMMARY:" + title);
             }
 
         }
@@ -141,13 +140,19 @@ public class ScheduleCleaner {
      * @param eventRange All event ranges
      */
     private void excludeEvents(List<String> lines, EventRange eventRange) {
+        StringBuilder line = new StringBuilder();
         for (int i = eventRange.getStart(); i <= eventRange.getStop(); i++) {
-            String line = lines.get(i);
+            line.append(lines.get(i));
+        }
 
-            eventExclusions.forEach(fix -> {
-                boolean exclude = fix.check(line);
+        // Fixes
+        for (Fix fix : fixes) {
+            if (fix instanceof EventExclusion) {
+                EventExclusion eventExclusion = (EventExclusion) fix;
+
+                boolean exclude = eventExclusion.check(line.toString());
                 eventRange.setExcluded(exclude);
-            });
+            }
         }
     }
 }

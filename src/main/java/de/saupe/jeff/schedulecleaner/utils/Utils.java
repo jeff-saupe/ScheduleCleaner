@@ -29,27 +29,21 @@ public class Utils {
         bufferedReader.lines().forEach(System.out::println);
     }
 
-    public static String retrieveModuleFromDescription(String description) {
+    public static String findTitleInDescription(String description) {
         Matcher matcher = titlePattern.matcher(description);
         if (matcher.find()) {
-            return matcher.group(3).trim();
+            String module = matcher.group(3).trim();
+
+            matcher = titleWithCodePattern.matcher(module);
+            if (matcher.find()) {
+                return matcher.group(3);
+            }
+
+            matcher = titleWithoutCodePattern.matcher(module);
+            if (matcher.find()) {
+                return matcher.group(2);
+            }
         }
-        return null;
-    }
-
-    public static String retrieveNameFromModule(String module) {
-        Matcher matcher;
-
-        matcher = titleWithCodePattern.matcher(module);
-        if (matcher.find()) {
-            return matcher.group(3);
-        }
-
-        matcher = titleWithoutCodePattern.matcher(module);
-        if (matcher.find()) {
-            return matcher.group(2);
-        }
-
         return null;
     }
 
