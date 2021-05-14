@@ -11,20 +11,23 @@ import java.util.List;
 import java.util.Map;
 
 public class CalendarComponent {
-    public enum ComponentTypes {
+    public enum ComponentType {
         VCALENDAR, VTIMEZONE, VEVENT, VTODO, VJOURNAL, VFREEBUSY, VALARM, DAYLIGHT, STANDARD
     }
 
     @Getter
-    private final ComponentTypes type;
-    @Getter @Setter
+    private final ComponentType type;
+    @Getter
+    @Setter
     private boolean excluded = false;
-    @Getter @Setter
+    @Getter
+    @Setter
     private Map<String, String> properties = new HashMap<>();
-    @Getter @Setter
+    @Getter
+    @Setter
     private List<CalendarComponent> subComponents = new ArrayList<>();
 
-    public CalendarComponent(ComponentTypes type) {
+    public CalendarComponent(ComponentType type) {
         this.type = type;
     }
 
@@ -43,20 +46,27 @@ public class CalendarComponent {
             StringBuilder builder = new StringBuilder();
 
             // Begin component
-            builder.append("BEGIN:" + type.name() + "\n");
+            builder.append("BEGIN:")
+                    .append(type.name())
+                    .append("\n");
 
             // Properties
             for (Map.Entry<String, String> entry : properties.entrySet()) {
-                builder.append(entry.getKey() + ":" + entry.getValue() + "\n");
+                builder.append(entry.getKey())
+                        .append(":")
+                        .append(entry.getValue())
+                        .append("\n");
             }
 
             // Sub-Components
-            for(CalendarComponent component : subComponents) {
+            for (CalendarComponent component : subComponents) {
                 builder.append(component.toString());
             }
 
             // End component
-            builder.append("END:" + type.name() + "\n");
+            builder.append("END:")
+                    .append(type.name())
+                    .append("\n");
 
             return builder.toString();
         }

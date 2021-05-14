@@ -62,7 +62,7 @@ public class IcsBuilder {
                     if (calendarComponent == null) {
                         // Add a new component
                         if (key.equalsIgnoreCase("BEGIN")) {
-                            calendarComponent = new CalendarComponent(CalendarComponent.ComponentTypes.valueOf(value));
+                            calendarComponent = new CalendarComponent(CalendarComponent.ComponentType.valueOf(value));
                         }
                     } else {
                         if (key.equalsIgnoreCase("BEGIN")) {
