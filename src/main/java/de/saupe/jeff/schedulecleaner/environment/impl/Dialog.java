@@ -1,8 +1,8 @@
 package de.saupe.jeff.schedulecleaner.environment.impl;
 
-import de.saupe.jeff.schedulecleaner.environment.ResponseHandler;
+import de.saupe.jeff.schedulecleaner.ResponseHandler;
 import de.saupe.jeff.schedulecleaner.ScheduleCleaner;
-import de.saupe.jeff.schedulecleaner.misc.CleaningAction;
+import de.saupe.jeff.schedulecleaner.ScheduleCleaner.CleaningAction;
 import de.saupe.jeff.schedulecleaner.environment.Environment;
 import lombok.extern.log4j.Log4j2;
 

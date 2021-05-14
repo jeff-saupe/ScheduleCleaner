@@ -15,7 +15,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class IcsBuilder {
+public class CalendarBuilder {
     private static final Pattern attributePattern = Pattern.compile("(.+?):(.*)");
 
     /**
