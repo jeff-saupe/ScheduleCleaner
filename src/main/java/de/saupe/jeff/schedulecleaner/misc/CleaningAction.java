@@ -1,4 +1,4 @@
-package de.saupe.jeff.schedulecleaner.components;
+package de.saupe.jeff.schedulecleaner.misc;
 
 public enum CleaningAction {
     CLEAN,

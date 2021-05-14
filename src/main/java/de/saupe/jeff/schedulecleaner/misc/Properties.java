@@ -1,4 +1,4 @@
-package de.saupe.jeff.schedulecleaner.utils;
+package de.saupe.jeff.schedulecleaner.misc;
 
 public class Properties {
     public static final String NAME = "ScheduleCleaner";

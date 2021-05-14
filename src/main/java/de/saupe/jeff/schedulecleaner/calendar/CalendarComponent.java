@@ -1,6 +1,6 @@
-package de.saupe.jeff.schedulecleaner.components.calendar;
+package de.saupe.jeff.schedulecleaner.calendar;
 
-import de.saupe.jeff.schedulecleaner.components.calendar.exceptions.PropertyNotFoundException;
+import de.saupe.jeff.schedulecleaner.calendar.exceptions.PropertyNotFoundException;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;

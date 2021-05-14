@@ -1,7 +1,6 @@
-package de.saupe.jeff.schedulecleaner.components.calendar;
+package de.saupe.jeff.schedulecleaner.calendar;
 
-import de.saupe.jeff.schedulecleaner.components.calendar.CalendarComponent.ComponentTypes;
-import de.saupe.jeff.schedulecleaner.utils.Utils;
+import de.saupe.jeff.schedulecleaner.misc.Utils;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -63,7 +62,7 @@ public class IcsBuilder {
                     if (calendarComponent == null) {
                         // Add a new component
                         if (key.equalsIgnoreCase("BEGIN")) {
-                            calendarComponent = new CalendarComponent(ComponentTypes.valueOf(value));
+                            calendarComponent = new CalendarComponent(CalendarComponent.ComponentTypes.valueOf(value));
                         }
                     } else {
                         if (key.equalsIgnoreCase("BEGIN")) {

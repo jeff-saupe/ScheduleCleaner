@@ -1,7 +1,7 @@
-package de.saupe.jeff.schedulecleaner.components.fixes.impl;
+package de.saupe.jeff.schedulecleaner.fixes.impl;
 
-import de.saupe.jeff.schedulecleaner.components.calendar.CalendarComponent;
-import de.saupe.jeff.schedulecleaner.components.fixes.Fix;
+import de.saupe.jeff.schedulecleaner.calendar.CalendarComponent;
+import de.saupe.jeff.schedulecleaner.fixes.Fix;
 import lombok.NonNull;
 import org.apache.commons.lang3.StringUtils;
 

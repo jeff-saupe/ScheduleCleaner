@@ -1,4 +1,4 @@
-package de.saupe.jeff.schedulecleaner.utils;
+package de.saupe.jeff.schedulecleaner.misc;
 
 import de.saupe.jeff.schedulecleaner.Main;
 

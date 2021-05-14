@@ -1,17 +1,44 @@
-package de.saupe.jeff.schedulecleaner;
+package de.saupe.jeff.schedulecleaner.environment.impl;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import de.saupe.jeff.schedulecleaner.components.CleaningAction;
+import com.sun.net.httpserver.HttpServer;
+import de.saupe.jeff.schedulecleaner.environment.ResponseHandler;
+import de.saupe.jeff.schedulecleaner.ScheduleCleaner;
+import de.saupe.jeff.schedulecleaner.misc.CleaningAction;
+import de.saupe.jeff.schedulecleaner.environment.Environment;
+import de.saupe.jeff.schedulecleaner.misc.Properties;
+import lombok.extern.log4j.Log4j2;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class DynamicIcsServer implements HttpHandler {
+@Log4j2
+public class DynamicIcsServer extends Environment implements HttpHandler {
     private final Pattern URLPattern = Pattern.compile(".*/([a-zA-Z][0-9]{2}[a-zA-Z])_([0-9])\\.ics");
+
+    @Override
+    public void start() {
+        super.start();
+
+        String port = System.getenv("PORT"); // for Heroku
+        if (port == null)
+            port = "5000";
+
+        try {
+            HttpServer server = HttpServer.create(new InetSocketAddress(Integer.parseInt(port)), 0);
+            server.createContext(Properties.PATH_DYNAMIC_ICS_SERVER, this);
+            server.setExecutor(null);
+            server.start();
+            log.info("DynamicIcsServer started on port {}", port);
+        } catch (IOException e) {
+            log.error("Failed to start DynamicIcsServer on port {}", port);
+        }
+    }
 
     @Override
     public void handle(HttpExchange exchange) {
@@ -60,5 +87,4 @@ public class DynamicIcsServer implements HttpHandler {
         sendResponse(exchange, 404, "text", "Wrong URL format. " +
                 "Example: /cleaned-schedule/<centuria>_<semester>.ics");
     }
-
 }

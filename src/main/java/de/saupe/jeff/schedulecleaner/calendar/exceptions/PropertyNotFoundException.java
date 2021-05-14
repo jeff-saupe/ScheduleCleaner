@@ -1,4 +1,4 @@
-package de.saupe.jeff.schedulecleaner.components.calendar.exceptions;
+package de.saupe.jeff.schedulecleaner.calendar.exceptions;
 
 public class PropertyNotFoundException extends Exception {
     public PropertyNotFoundException(String property) {

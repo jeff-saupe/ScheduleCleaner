@@ -1,14 +1,15 @@
 package de.saupe.jeff.schedulecleaner;
 
-import de.saupe.jeff.schedulecleaner.components.CleaningAction;
-import de.saupe.jeff.schedulecleaner.components.calendar.CalendarComponent;
-import de.saupe.jeff.schedulecleaner.components.calendar.CalendarComponent.ComponentTypes;
-import de.saupe.jeff.schedulecleaner.components.calendar.IcsBuilder;
-import de.saupe.jeff.schedulecleaner.components.fixes.Fix;
-import de.saupe.jeff.schedulecleaner.components.fixes.impl.AddLocation;
-import de.saupe.jeff.schedulecleaner.components.fixes.impl.CleanTitle;
-import de.saupe.jeff.schedulecleaner.utils.Properties;
-import de.saupe.jeff.schedulecleaner.utils.Utils;
+import de.saupe.jeff.schedulecleaner.environment.ResponseHandler;
+import de.saupe.jeff.schedulecleaner.misc.CleaningAction;
+import de.saupe.jeff.schedulecleaner.calendar.CalendarComponent;
+import de.saupe.jeff.schedulecleaner.calendar.CalendarComponent.ComponentTypes;
+import de.saupe.jeff.schedulecleaner.calendar.IcsBuilder;
+import de.saupe.jeff.schedulecleaner.fixes.Fix;
+import de.saupe.jeff.schedulecleaner.fixes.impl.AddLocation;
+import de.saupe.jeff.schedulecleaner.fixes.impl.CleanTitle;
+import de.saupe.jeff.schedulecleaner.misc.Properties;
+import de.saupe.jeff.schedulecleaner.misc.Utils;
 import lombok.Setter;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;

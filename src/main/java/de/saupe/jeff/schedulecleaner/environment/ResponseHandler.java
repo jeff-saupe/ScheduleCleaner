@@ -1,4 +1,4 @@
-package de.saupe.jeff.schedulecleaner;
+package de.saupe.jeff.schedulecleaner.environment;
 
 import lombok.extern.slf4j.Slf4j;
 

@@ -1,8 +1,8 @@
-package de.saupe.jeff.schedulecleaner.components.fixes.impl;
+package de.saupe.jeff.schedulecleaner.fixes.impl;
 
-import de.saupe.jeff.schedulecleaner.components.calendar.CalendarComponent;
-import de.saupe.jeff.schedulecleaner.components.calendar.exceptions.PropertyNotFoundException;
-import de.saupe.jeff.schedulecleaner.components.fixes.Fix;
+import de.saupe.jeff.schedulecleaner.calendar.CalendarComponent;
+import de.saupe.jeff.schedulecleaner.calendar.exceptions.PropertyNotFoundException;
+import de.saupe.jeff.schedulecleaner.fixes.Fix;
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
