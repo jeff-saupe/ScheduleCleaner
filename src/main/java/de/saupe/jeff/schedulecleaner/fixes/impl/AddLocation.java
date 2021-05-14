@@ -22,8 +22,13 @@ public class AddLocation implements Fix {
             String description = descriptionAttribute.getValue();
             String room = findRoomInDescription(description);
             if (room != null) {
-                CalendarAttribute locationAttribute = new CalendarAttribute("LOCATION", "Raum: " + room);
-                event.getAttributes().add(locationAttribute);
+                CalendarAttribute locationAttribute;
+                try {
+                    locationAttribute = event.getAttribute("LOCATION");
+                } catch (AttributeNotFoundException e) {
+                    locationAttribute = new CalendarAttribute("LOCATION", "");
+                }
+                locationAttribute.setValue("Raum: " + room);
             }
         } catch (AttributeNotFoundException e) {
             log.error(e.getMessage());
