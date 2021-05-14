@@ -1,11 +1,11 @@
 package de.saupe.jeff.schedulecleaner.fixes.impl;
 
+import de.saupe.jeff.schedulecleaner.calendar.CalendarAttribute;
 import de.saupe.jeff.schedulecleaner.calendar.CalendarComponent;
-import de.saupe.jeff.schedulecleaner.calendar.exceptions.PropertyNotFoundException;
+import de.saupe.jeff.schedulecleaner.calendar.exceptions.AttributeNotFoundException;
 import de.saupe.jeff.schedulecleaner.fixes.Fix;
 import lombok.extern.log4j.Log4j2;
 
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,16 +15,17 @@ public class AddLocation implements Fix {
 
     @Override
     public void apply(CalendarComponent event) {
-        Map.Entry<String, String> descriptionProperty;
+        CalendarAttribute descriptionAttribute;
         try {
-            descriptionProperty = event.getEntry("DESCRIPTION");
+            descriptionAttribute = event.getAttribute("DESCRIPTION");
 
-            String description = descriptionProperty.getValue();
+            String description = descriptionAttribute.getValue();
             String room = findRoomInDescription(description);
             if (room != null) {
-                event.getProperties().put("LOCATION", "Raum: " + room);
+                CalendarAttribute locationAttribute = new CalendarAttribute("LOCATION", "Raum: " + room);
+                event.getAttributes().add(locationAttribute);
             }
-        } catch (PropertyNotFoundException e) {
+        } catch (AttributeNotFoundException e) {
             log.error(e.getMessage());
         }
     }

@@ -1,12 +1,11 @@
 package de.saupe.jeff.schedulecleaner.calendar;
 
-import de.saupe.jeff.schedulecleaner.calendar.exceptions.PropertyNotFoundException;
+import de.saupe.jeff.schedulecleaner.calendar.exceptions.AttributeNotFoundException;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,22 +21,22 @@ public class CalendarComponent {
     private boolean excluded = false;
     @Getter
     @Setter
-    private Map<String, String> properties = new HashMap<>();
+    private List<CalendarAttribute> attributes = new ArrayList<>();
     @Getter
     @Setter
-    private List<CalendarComponent> subComponents = new ArrayList<>();
+    private List<CalendarComponent> components = new ArrayList<>();
 
     public CalendarComponent(ComponentType type) {
         this.type = type;
     }
 
-    public Map.Entry<String, String> getEntry(String property) throws PropertyNotFoundException {
-        for (Map.Entry<String, String> entry : properties.entrySet()) {
-            if (StringUtils.containsIgnoreCase(entry.getKey(), property)) {
-                return entry;
+    public CalendarAttribute getAttribute(String name) throws AttributeNotFoundException {
+        for (CalendarAttribute attribute : attributes) {
+            if (StringUtils.containsIgnoreCase(attribute.getName(), name)) {
+                return attribute;
             }
         }
-        throw new PropertyNotFoundException(property);
+        throw new AttributeNotFoundException(name);
     }
 
     @Override
@@ -51,15 +50,15 @@ public class CalendarComponent {
                     .append("\n");
 
             // Properties
-            for (Map.Entry<String, String> entry : properties.entrySet()) {
-                builder.append(entry.getKey())
+            for (CalendarAttribute attribute : attributes) {
+                builder.append(attribute.getName())
                         .append(":")
-                        .append(entry.getValue())
+                        .append(attribute.getValue())
                         .append("\n");
             }
 
             // Sub-Components
-            for (CalendarComponent component : subComponents) {
+            for (CalendarComponent component : components) {
                 builder.append(component.toString());
             }
 

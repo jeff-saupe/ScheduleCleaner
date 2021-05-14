@@ -1,6 +1,8 @@
 package de.saupe.jeff.schedulecleaner;
 
 import de.saupe.jeff.schedulecleaner.environment.ResponseHandler;
+import de.saupe.jeff.schedulecleaner.fixes.impl.ExcludeEvent;
+import de.saupe.jeff.schedulecleaner.fixes.impl.UpdateTitle;
 import de.saupe.jeff.schedulecleaner.misc.CleaningAction;
 import de.saupe.jeff.schedulecleaner.calendar.CalendarComponent;
 import de.saupe.jeff.schedulecleaner.calendar.CalendarComponent.ComponentType;
@@ -81,7 +83,7 @@ public class ScheduleCleaner {
             return;
         }
 
-        List<CalendarComponent> events = calendar.getSubComponents()
+        List<CalendarComponent> events = calendar.getComponents()
                 .stream()
                 .filter(component -> component.getType() == ComponentType.VEVENT)
                 .collect(Collectors.toList());

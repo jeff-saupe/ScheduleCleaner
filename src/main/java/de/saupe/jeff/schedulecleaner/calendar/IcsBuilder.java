@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class IcsBuilder {
-    private static final Pattern propertyPattern = Pattern.compile("(.+?):(.*)");
+    private static final Pattern attributePattern = Pattern.compile("(.+?):(.*)");
 
     /**
      * Retrieve the ICS file over the internet and return every line in a list
@@ -54,27 +54,28 @@ public class IcsBuilder {
             if (Utils.hasNext(lines)) {
                 String line = Utils.next(lines);
 
-                Matcher property = propertyPattern.matcher(line);
-                if (property.find()) {
-                    String key = property.group(1);
-                    String value = property.group(2);
+                Matcher matcher = attributePattern.matcher(line);
+                if (matcher.find()) {
+                    String attributeName = matcher.group(1);
+                    String attributeValue = matcher.group(2);
 
                     if (calendarComponent == null) {
                         // Add a new component
-                        if (key.equalsIgnoreCase("BEGIN")) {
-                            calendarComponent = new CalendarComponent(CalendarComponent.ComponentType.valueOf(value));
+                        if (attributeName.equalsIgnoreCase("BEGIN")) {
+                            calendarComponent = new CalendarComponent(CalendarComponent.ComponentType.valueOf(attributeValue));
                         }
                     } else {
-                        if (key.equalsIgnoreCase("BEGIN")) {
+                        if (attributeName.equalsIgnoreCase("BEGIN")) {
                             // Add a new sub-component
                             lines.add(0, line); // Re-add "BEGIN"
                             CalendarComponent subComponent = toComponent(lines);
-                            calendarComponent.getSubComponents().add(subComponent);
-                        } else if(key.equalsIgnoreCase("END")) {
+                            calendarComponent.getComponents().add(subComponent);
+                        } else if(attributeName.equalsIgnoreCase("END")) {
                             return calendarComponent;
                         } else {
-                            // Add property to the current component
-                            calendarComponent.getProperties().put(key, value);
+                            // Add attribute to the current component
+                            CalendarAttribute attribute = new CalendarAttribute(attributeName, attributeValue);
+                            calendarComponent.getAttributes().add(attribute);
                         }
                     }
                 }

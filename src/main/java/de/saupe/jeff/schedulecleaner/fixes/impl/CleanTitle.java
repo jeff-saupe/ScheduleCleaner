@@ -1,11 +1,11 @@
 package de.saupe.jeff.schedulecleaner.fixes.impl;
 
+import de.saupe.jeff.schedulecleaner.calendar.CalendarAttribute;
 import de.saupe.jeff.schedulecleaner.calendar.CalendarComponent;
-import de.saupe.jeff.schedulecleaner.calendar.exceptions.PropertyNotFoundException;
+import de.saupe.jeff.schedulecleaner.calendar.exceptions.AttributeNotFoundException;
 import de.saupe.jeff.schedulecleaner.fixes.Fix;
 import lombok.extern.log4j.Log4j2;
 
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,17 +17,17 @@ public class CleanTitle implements Fix {
 
     @Override
     public void apply(CalendarComponent event) {
-        Map.Entry<String, String> descriptionProperty;
+        CalendarAttribute descriptionAttribute;
         try {
-            descriptionProperty = event.getEntry("DESCRIPTION");
+            descriptionAttribute = event.getAttribute("DESCRIPTION");
 
-            String description = descriptionProperty.getValue();
+            String description = descriptionAttribute.getValue();
             String cleanTitle = findTitleInDescription(description);
             if (cleanTitle != null) {
-                Map.Entry<String, String> titleProperty = event.getEntry("SUMMARY");
-                titleProperty.setValue(cleanTitle);
+                CalendarAttribute titleAttribute = event.getAttribute("SUMMARY");
+                titleAttribute.setValue(cleanTitle);
             }
-        } catch (PropertyNotFoundException e) {
+        } catch (AttributeNotFoundException e) {
             log.error(e.getMessage());
         }
     }
