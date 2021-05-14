@@ -1,6 +1,7 @@
 package de.saupe.jeff.schedulecleaner.components.fix;
 
 import lombok.NonNull;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -16,7 +17,7 @@ public class EventExclusion implements Fix {
     public boolean check(String text) {
         // ALL parameters have to be included in the text.
         for (String parameter : parameters) {
-            if (!text.contains(parameter)) return false;
+            if (!StringUtils.containsIgnoreCase(text, parameter)) return false;
         }
         return true;
     }

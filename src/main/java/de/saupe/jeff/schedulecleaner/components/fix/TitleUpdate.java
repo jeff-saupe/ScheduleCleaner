@@ -1,6 +1,7 @@
 package de.saupe.jeff.schedulecleaner.components.fix;
 
 import lombok.Getter;
+import org.apache.commons.lang3.StringUtils;
 
 public class TitleUpdate implements Fix {
     @Getter
@@ -15,6 +16,6 @@ public class TitleUpdate implements Fix {
 
     @Override
     public boolean check(String text) {
-        return text.contains(oldTitle);
+        return StringUtils.containsIgnoreCase(text, oldTitle);
     }
 }
