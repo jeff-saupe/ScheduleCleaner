@@ -1,8 +1,6 @@
 package de.saupe.jeff.schedulecleaner.utils;
 
 import de.saupe.jeff.schedulecleaner.Main;
-import de.saupe.jeff.schedulecleaner.components.EventRange;
-import de.saupe.jeff.schedulecleaner.components.fix.TitleUpdate;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -45,15 +43,6 @@ public class Utils {
             }
         }
         return null;
-    }
-
-    public static int findIndexOfStartsWith(List<String> lines, EventRange eventRange, String text) {
-        for (int i = eventRange.getStart(); i <= eventRange.getStop(); i++) {
-            if (lines.get(i).startsWith(text)) {
-                return i;
-            }
-        }
-        return -1;
     }
 
     public static String capitalizeOnlyFirstLetter(String s) {

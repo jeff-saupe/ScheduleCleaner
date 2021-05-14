@@ -1,4 +1,4 @@
-package de.saupe.jeff.schedulecleaner.components.fix;
+package de.saupe.jeff.schedulecleaner.components.fixes;
 
 import de.saupe.jeff.schedulecleaner.components.calendar.CalendarComponent;
 
