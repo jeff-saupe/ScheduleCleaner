@@ -10,10 +10,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Log4j2
-public class CleanTitle implements Fix {
+public class CleanTitle extends Fix {
     private static final Pattern titlePattern = Pattern.compile("(.*)(Veranstaltung:)(.*?)(\\\\n)");
     private static final Pattern titleWithCodePattern = Pattern.compile("(.) (.[0-9]* )(.*)");
     private static final Pattern titleWithoutCodePattern = Pattern.compile("(.) (.*)");
+
+    public CleanTitle() {
+        super("clean", 0, 0);
+    }
 
     @Override
     public void apply(CalendarComponent event) {

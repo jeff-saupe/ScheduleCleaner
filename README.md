@@ -32,29 +32,31 @@ The generated .ics file can be imported to your desired calendar application.
 
 ## 🛠️ Apply additional fixes
 Within the class `ScheduleCleaner.java` there is a method called `initFixes()`.
-There you can add two types of fixes:
+There you can add two types of fixes (both are **case-insensitive**):
 
-### Update a title
-This fix is used to update / rename the title of an event. _(In the ICS context, this is known as the summary.)_
+### Replace texts
+This fix replaces a text of an event with another text. Two parameters are required.
 
 ```java
-UpdateTitle updateTitle = new UpdateTitle();
-updateTitle.setOldTitle("Tech.Grundlagen der Informatik 2");
-updateTitle.setNewTitle("TGdI");
-
-addFix(updateTitle);
+Fix replaceText = FixFactory.createFix(FixMethod.REPLACE);
+replaceText.setParameters(
+    "Tech.Grundlagen der Informatik 2",
+    "TGdI");
+addFix(replaceText);
 ```
 
-This fix will check for any events whose title (summary) **contains** the phrase `Tech.Grundlagen der Informatik 2` and replaces it with `TGdI`.
+This fix will check all attributes, e.g. the title, of all events all and replaces any occurrence
+of the phrase `Tech.Grundlagen der Informatik 2` with `TGdI`.
 
-### Exclude an event
-This fix is used to exclude a specific event.
+### Exclude events
+This fix is used to exclude specific events.  An infinite amount of parameters can be added
 
 ```java
-ExcludeEvent excludeEvent = new ExcludeEvent();
-excludeEvent.addParameter("Text1");
-excludeEvent.addParameters("Text2", "Text3") // An infinite amount of parameters can be added
-
+Fix excludeEvent = FixFactory.createFix(FixMethod.EXCLUDE);
+excludeEvent.setParameters(
+     "Text1",
+     "Text2",
+     "Text3");
 addFix(excludeEvent);
 ```
 
