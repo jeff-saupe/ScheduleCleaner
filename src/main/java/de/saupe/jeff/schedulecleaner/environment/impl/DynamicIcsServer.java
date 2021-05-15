@@ -43,16 +43,19 @@ public class DynamicIcsServer extends Environment implements HttpHandler {
     @Override
     public void handle(HttpExchange exchange) {
         String path = exchange.getRequestURI().getPath();
+
+        // Check URL
         Matcher matcher = URLPattern.matcher(path);
         if (!matcher.find()) {
-            sendNotFoundResponse(exchange);
+            sendBadURLResponse(exchange);
             return;
         }
 
+        // Check centuria and semester
         String centuria = matcher.group(1);
         String semester = matcher.group(2);
         if (centuria == null || semester == null) {
-            sendNotFoundResponse(exchange);
+            sendBadURLResponse(exchange);
             return;
         }
 
@@ -71,6 +74,19 @@ public class DynamicIcsServer extends Environment implements HttpHandler {
         cleaner.clean();
     }
 
+    private static void sendBadURLResponse(HttpExchange exchange) {
+        sendNotFoundResponse(exchange, "Bad URL format. " +
+                "Example: /cleaned-schedule/<centuria>_<semester>.ics");
+    }
+
+    private static void sendNotFoundResponse(HttpExchange exchange, String response) {
+        sendResponse(exchange, 404, "text", response);
+    }
+
+    private static void sendBadRequestResponse(HttpExchange exchange, String response) {
+        sendResponse(exchange, 400, "text", response);
+    }
+
     private static void sendResponse(HttpExchange exchange, int statusCode, String contentType, String response) {
         try (OutputStream outputStream = exchange.getResponseBody()) {
             exchange.getResponseHeaders().add("Content-Type", contentType);
@@ -81,10 +97,5 @@ public class DynamicIcsServer extends Environment implements HttpHandler {
         } catch (IOException exception) {
             exception.printStackTrace();
         }
-    }
-
-    private static void sendNotFoundResponse(HttpExchange exchange) {
-        sendResponse(exchange, 404, "text", "Wrong URL format. " +
-                "Example: /cleaned-schedule/<centuria>_<semester>.ics");
     }
 }
