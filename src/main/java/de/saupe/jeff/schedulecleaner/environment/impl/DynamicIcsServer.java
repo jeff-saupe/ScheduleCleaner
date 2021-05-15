@@ -51,7 +51,7 @@ public class DynamicIcsServer extends Environment implements HttpHandler {
 
     @Override
     public void handle(HttpExchange exchange) throws UnsupportedEncodingException {
-        String url = exchange.getRequestURI().getPath();
+        String url = exchange.getRequestURI().toString();
         url = URLDecoder.decode(url, "UTF-8");
 
         // Check URL
