@@ -26,9 +26,11 @@ public abstract class Fix {
     }
 
     public FixResponse setParameters(String... parameters) {
-        FixResponse response = check(parameters);
+        List<String> list = Arrays.asList(parameters);
+
+        FixResponse response = check(list);
         if(response == FixResponse.OK) {
-            this.parameters = Arrays.asList(parameters);
+            this.parameters = list;
         }
         return response;
     }
@@ -40,13 +42,17 @@ public abstract class Fix {
      * @param parameters List of parameters
      * @return FixResponse
      */
-    private FixResponse check(String... parameters) {
-        if (parameters.length < minParameters) {
+    private FixResponse check(List<String> parameters) {
+        if (parameters.size() < minParameters) {
             return FixResponse.TOO_FEW_PARAMETERS;
         }
-        if (parameters.length > maxParameters) {
+        if (parameters.size() > maxParameters) {
             return FixResponse.TOO_MANY_PARAMETERS;
         }
         return FixResponse.OK;
+    }
+
+    public FixResponse check() {
+        return check(this.parameters);
     }
 }

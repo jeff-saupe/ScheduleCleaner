@@ -38,13 +38,11 @@ There you can add two types of fixes (both are **case-insensitive**):
 This fix replaces a text of an event with another text. Two parameters are required.
 
 ```java
-ReplaceText replaceText = new ReplaceText();
-FixResponse response = replaceText.setParameters(
-      "Tech.Grundlagen der Informatik 2",
-      "TGdI");
-if (response == FixResponse.OK) {
-    addFix(replaceText);
-}
+Fix replaceText = FixFactory.createFix(FixMethod.REPLACE);
+replaceText.setParameters(
+    "Tech.Grundlagen der Informatik 2",
+    "TGdI");
+addFix(replaceText);
 ```
 
 This fix will check all attributes, e.g. the title, of all events all and replaces any occurrence
@@ -54,14 +52,12 @@ of the phrase `Tech.Grundlagen der Informatik 2` with `TGdI`.
 This fix is used to exclude specific events.  An infinite amount of parameters can be added
 
 ```java
-ExcludeEvent excludeEvent = new ExcludeEvent();
-FixResponse response = excludeEvent.setParameters(
-      "Text1",
-      "Text2",
-      "Text3");
-if (response == FixResponse.OK) {
-    addFix(excludeEvent);
-}
+Fix excludeEvent = FixFactory.createFix(FixMethod.EXCLUDE);
+excludeEvent.setParameters(
+     "Text1",
+     "Text2",
+     "Text3");
+addFix(excludeEvent);
 ```
 
 This fix will exclude any events that **contain** the phrases `Text1`,`Text2` **and** `Text3`.
