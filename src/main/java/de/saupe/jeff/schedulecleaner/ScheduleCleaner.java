@@ -4,6 +4,7 @@ import de.saupe.jeff.schedulecleaner.calendar.CalendarComponent;
 import de.saupe.jeff.schedulecleaner.calendar.CalendarComponent.ComponentType;
 import de.saupe.jeff.schedulecleaner.calendar.CalendarBuilder;
 import de.saupe.jeff.schedulecleaner.fixes.Fix;
+import de.saupe.jeff.schedulecleaner.fixes.FixResponse;
 import de.saupe.jeff.schedulecleaner.fixes.impl.AddLocation;
 import de.saupe.jeff.schedulecleaner.fixes.impl.CleanTitle;
 import de.saupe.jeff.schedulecleaner.fixes.impl.ExcludeEvent;
@@ -20,6 +21,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -58,15 +60,22 @@ public class ScheduleCleaner {
         addFix(new AddLocation());
 
         // [Example] Replaces a text with another text
-//        ReplaceText replaceText = new ReplaceText();
-//        replaceText.setOldText("Tech.Grundlagen der Informatik 2");
-//        replaceText.setNewText("Technische Grundlagen der Informatik 2");
-//        addFix(replaceText);
+        ReplaceText replaceText = new ReplaceText();
+        FixResponse response1 = replaceText.setParameters(
+                "Tech.Grundlagen der Informatik 2",
+                "Technische Grundlagen der Informatik 2");
+        if (response1 == FixResponse.OK) {
+            addFix(replaceText);
+        }
 
         // [Example] Event exclusion
-//        ExcludeEvent excludeEvent = new ExcludeEvent();
-//        excludeEvent.addParameters("O'Brien", "Englisch");
-//        addFix(excludeEvent);
+        ExcludeEvent excludeEvent = new ExcludeEvent();
+        FixResponse response2 = excludeEvent.setParameters(
+                "O'Brien",
+                "Englisch");
+        if (response2 == FixResponse.OK) {
+            addFix(excludeEvent);
+        }
     }
 
     public void addFix(Fix fix) {

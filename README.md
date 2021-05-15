@@ -35,28 +35,33 @@ Within the class `ScheduleCleaner.java` there is a method called `initFixes()`.
 There you can add two types of fixes (both are **case-insensitive**):
 
 ### Replace texts
-This fix replaces a text of an event with another text.
+This fix replaces a text of an event with another text. Two parameters are required.
 
 ```java
 ReplaceText replaceText = new ReplaceText();
-replaceText.setOldText("Tech.Grundlagen der Informatik 2");
-replaceText.setNewText("TGdI");
-
-addFix(replaceText);
+FixResponse response = replaceText.setParameters(
+      "Tech.Grundlagen der Informatik 2",
+      "TGdI");
+if (response == FixResponse.OK) {
+    addFix(replaceText);
+}
 ```
 
 This fix will check all attributes, e.g. the title, of all events all and replaces any occurrence
 of the phrase `Tech.Grundlagen der Informatik 2` with `TGdI`.
 
 ### Exclude events
-This fix is used to exclude specific events.
+This fix is used to exclude specific events.  An infinite amount of parameters can be added
 
 ```java
 ExcludeEvent excludeEvent = new ExcludeEvent();
-excludeEvent.addParameter("Text1");
-excludeEvent.addParameters("Text2", "Text3") // An infinite amount of parameters can be added
-
-addFix(excludeEvent);
+FixResponse response = excludeEvent.setParameters(
+      "Text1",
+      "Text2",
+      "Text3");
+if (response == FixResponse.OK) {
+    addFix(excludeEvent);
+}
 ```
 
 This fix will exclude any events that **contain** the phrases `Text1`,`Text2` **and** `Text3`.
