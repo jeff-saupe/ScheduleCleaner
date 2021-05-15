@@ -7,7 +7,7 @@ import de.saupe.jeff.schedulecleaner.fixes.Fix;
 import de.saupe.jeff.schedulecleaner.fixes.impl.AddLocation;
 import de.saupe.jeff.schedulecleaner.fixes.impl.CleanTitle;
 import de.saupe.jeff.schedulecleaner.fixes.impl.ExcludeEvent;
-import de.saupe.jeff.schedulecleaner.fixes.impl.UpdateTitle;
+import de.saupe.jeff.schedulecleaner.fixes.impl.ReplaceText;
 import de.saupe.jeff.schedulecleaner.misc.Properties;
 import de.saupe.jeff.schedulecleaner.misc.Utils;
 import lombok.Setter;
@@ -57,11 +57,11 @@ public class ScheduleCleaner {
         // [Default] Add room as location
         addFix(new AddLocation());
 
-        // [Example] Title renaming
-//        UpdateTitle updateTitle = new UpdateTitle();
-//        updateTitle.setOldTitle("Tech.Grundlagen der Informatik 2");
-//        updateTitle.setNewTitle("Technische Grundlagen der Informatik 2");
-//        addFix(updateTitle);
+        // [Example] Replaces a text with another text
+//        ReplaceText replaceText = new ReplaceText();
+//        replaceText.setOldText("Tech.Grundlagen der Informatik 2");
+//        replaceText.setNewText("Technische Grundlagen der Informatik 2");
+//        addFix(replaceText);
 
         // [Example] Event exclusion
 //        ExcludeEvent excludeEvent = new ExcludeEvent();
