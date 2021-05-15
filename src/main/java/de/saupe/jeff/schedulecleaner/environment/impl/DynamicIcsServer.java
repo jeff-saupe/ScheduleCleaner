@@ -16,7 +16,9 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.InetSocketAddress;
+import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,11 +50,12 @@ public class DynamicIcsServer extends Environment implements HttpHandler {
     }
 
     @Override
-    public void handle(HttpExchange exchange) {
-        String path = exchange.getRequestURI().getPath();
+    public void handle(HttpExchange exchange) throws UnsupportedEncodingException {
+        String url = exchange.getRequestURI().getPath();
+        url = URLDecoder.decode(url, "UTF-8");
 
         // Check URL
-        Matcher urlMatcher = URLPattern.matcher(path);
+        Matcher urlMatcher = URLPattern.matcher(url);
         if (!urlMatcher.find()) {
             sendBadURLResponse(exchange);
             return;
