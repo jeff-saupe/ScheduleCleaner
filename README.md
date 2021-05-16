@@ -13,6 +13,8 @@ There are currently **three** ways to use the **Schedule Cleaner**.
 ## 🧾 Option 1 | Import or download by URL
 This option allows you to **automatically import** or just **download** the cleaned calendar by URL - without touching any code!
 
+</br>
+
 ### 🛠️ Creating the base URL
 At the moment, this has to be done by yourself. In the future there might be a generator for building the URL. Stay tuned!
 
@@ -49,11 +51,10 @@ There are **three** fixes you can apply:
 | #3              | Event exclusion                                                                             |
 |-----------------|---------------------------------------------------------------------------------------------|
 | **Description** | This fix is used to exclude specific events based on phrases it **must all contain.**       |
-| **Parameters**  | Maximum of **ten** parameters                                                               |
+| **Parameters**  | Minimum of **one** and maximum of **ten** parameters                                        |
 | **Usage**       | `exclude=O'Brien;Englisch`                                                                  |
 | **Comment**     | This fix will exclude any events that **contain** the phrases `O'Brien` **and** `Englisch`. |
 
-</br>
 
 💡 Every fix **must** begin with **&** as a symbol, **except the first one**. \
 💡 The part for parameters **must** begin with **=** as a symbol. \
@@ -85,7 +86,7 @@ Adding the URL into your calendar application allows **live updates** on changes
 1. Within your calendar application, locate the settings where you can add a calendar by URL. <br>
    - [Guide for Google Calendar](https://support.google.com/calendar/answer/37100#:~:text=Use%20a%20link%20to%20add%20a%20public%20calendar)
    - **Note**: With Google Calendar, it can take up to [12 hours until the calendar is synchronised again.](https://support.google.com/calendar/answer/37100?hl=en&ref_topic=1672445/#:~:text=It%20might%20take%20up%20to%2012%20hours%20for%20changes%20to%20show%20in%20your%20Google%20Calendar.)
-2. Use the URL you've just built in section 1.
+2. Use the URL you've just built in the previous sections.
 
 </br>
 
