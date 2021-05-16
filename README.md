@@ -30,7 +30,7 @@ In the first step you've created the base URL. If you'd like to add some adjustm
 extend the base URL.
 
 💡 The part for adjustments **must** begin with **?** as a symbol. \
-💡 This part must be **URL encoded**. For that, please take a look at the end of this section.
+💡 This part must be **URL encoded**. For that, please take a look at the next section.
 
 There are **three** fixes you can apply:
 
@@ -49,7 +49,7 @@ There are **three** fixes you can apply:
 | #3              | Event exclusion                                        |
 |-----------------|--------------------------------------------------------|
 | **Description** | This fix is used to exclude specific events based on <br/>phrases it **must all contain.** |
-| **Parameters**  | Maximum of ten parameters                              |
+| **Parameters**  | Maximum of **ten** parameters                              |
 | **Usage**       | `exclude=O'Brien;Englisch`                             |
 | **Comment**     | This fix will exclude any events that **contain** the <br/>phrases `O'Brien` **and** `Englisch`. |
 
