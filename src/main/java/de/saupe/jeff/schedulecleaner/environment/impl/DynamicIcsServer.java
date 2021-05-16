@@ -40,6 +40,7 @@ public class DynamicIcsServer extends Environment implements HttpHandler {
         try {
             HttpServer server = HttpServer.create(new InetSocketAddress(Integer.parseInt(port)), 0);
             server.createContext(Properties.PATH_DYNAMIC_ICS_SERVER, this);
+            server.createContext("/", new StaticFileHandler(Properties.PATH_FRONTEND_ON_SERVER, false,true));
             server.setExecutor(null);
             server.start();
             log.info("DynamicIcsServer started on port {}", port);
