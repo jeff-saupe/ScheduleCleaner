@@ -53,9 +53,9 @@ public class ScheduleCleaner {
         Fix clean = FixFactory.createFix(FixMethod.CLEAN);
         addFix(clean);
 
-        // [Default] Add room as location
-        Fix location = FixFactory.createFix(FixMethod.LOCATION);
-        addFix(location);
+        // [Example] Add the room as a location
+//        Fix location = FixFactory.createFix(FixMethod.LOCATION);
+//        addFix(location);
 
         // [Example] Replaces a text with another text
 //        Fix replaceText = FixFactory.createFix(FixMethod.REPLACE);
@@ -72,12 +72,9 @@ public class ScheduleCleaner {
 //        addFix(excludeEvent);
     }
 
-    public void addFix(Fix fix) {
-        try {
-            fix.check();
+    public void addFix(Fix fix) throws IllegalArgumentException {
+        if (fix.check()) {
             fixes.add(fix);
-        } catch (IllegalArgumentException exception) {
-            log.error(exception.getMessage());
         }
     }
 
