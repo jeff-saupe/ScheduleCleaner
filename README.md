@@ -42,7 +42,7 @@ There are **three** fixes you can apply:
 
 | #2              | Text replacement                                       |
 |-----------------|--------------------------------------------------------|
-| **Description** | This fix sets the room for each event as the location. |
+| **Description** | This fix replaces the text of an event with another text. |
 | **Parameters**  | Old text and new text                                  |
 | **Usage**       | `replace=Tech.Grundlagen der Informatik 2;TGdI`        |
 
