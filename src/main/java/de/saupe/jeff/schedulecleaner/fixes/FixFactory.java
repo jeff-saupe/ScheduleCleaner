@@ -22,7 +22,7 @@ public class FixFactory {
                     return method;
                 }
             }
-            throw new IllegalArgumentException(String.format("FixMethod %s does not exist.", name));
+            throw new IllegalArgumentException(String.format("FixMethod '%s' does not exist.", name));
         }
     }
 

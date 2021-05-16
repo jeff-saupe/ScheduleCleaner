@@ -25,14 +25,12 @@ public abstract class Fix {
         this.maxParameters = maxParameters;
     }
 
-    public FixResponse setParameters(String... parameters) {
+    public void setParameters(String... parameters) throws IllegalArgumentException {
         List<String> list = Arrays.asList(parameters);
 
-        FixResponse response = check(list);
-        if(response == FixResponse.OK) {
-            this.parameters = list;
-        }
-        return response;
+        check(list);
+
+        this.parameters = list;
     }
 
     public abstract void apply(CalendarComponent event);
@@ -42,17 +40,16 @@ public abstract class Fix {
      * @param parameters List of parameters
      * @return FixResponse
      */
-    private FixResponse check(List<String> parameters) {
+    private void check(List<String> parameters) {
         if (parameters.size() < minParameters) {
-            return FixResponse.TOO_FEW_PARAMETERS;
+            throw new IllegalArgumentException(String.format("Too few parameters for '%s'", alias));
         }
         if (parameters.size() > maxParameters) {
-            return FixResponse.TOO_MANY_PARAMETERS;
+            throw new IllegalArgumentException(String.format("Too many parameters for '%s'", alias));
         }
-        return FixResponse.OK;
     }
 
-    public FixResponse check() {
-        return check(this.parameters);
+    public void check() throws IllegalArgumentException {
+        check(this.parameters);
     }
 }
