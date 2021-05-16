@@ -5,7 +5,7 @@
 [![Issues](https://img.shields.io/github/issues/jeff-saupe/ScheduleCleaner)](https://github.com/jeff-saupe/ScheduleCleaner/issues)
 [![Tag](https://img.shields.io/github/v/release/jeff-saupe/ScheduleCleaner)](https://github.com/jeff-saupe/ScheduleCleaner/releases)
 
-![Comparison](comparison.gif)
+![Comparison](./meta/comparison.gif)
 
 # 📖 Usage
 There are currently **three** ways to use the **Schedule Cleaner**.
