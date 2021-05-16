@@ -9,7 +9,6 @@ import de.saupe.jeff.schedulecleaner.ScheduleCleaner.CleaningAction;
 import de.saupe.jeff.schedulecleaner.environment.Environment;
 import de.saupe.jeff.schedulecleaner.fixes.Fix;
 import de.saupe.jeff.schedulecleaner.fixes.FixFactory;
-import de.saupe.jeff.schedulecleaner.fixes.FixResponse;
 import de.saupe.jeff.schedulecleaner.misc.Properties;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
@@ -28,7 +27,7 @@ import java.util.regex.Pattern;
 @Log4j2
 public class DynamicIcsServer extends Environment implements HttpHandler {
     private final Pattern URLPattern = Pattern.compile(".*/([a-zA-Z][0-9]{2}[a-zA-Z])_([0-9])\\.ics(\\?(.*)|)");
-    private final Pattern fixPattern = Pattern.compile("(.*)=(.*)");
+    private final Pattern fixPattern = Pattern.compile("(.*)=(.*)|(.*)");
 
     @Override
     public void start() {
@@ -111,34 +110,30 @@ public class DynamicIcsServer extends Environment implements HttpHandler {
                 // Iterate over all possible fixes
                 for(String parameter : parameters) {
                     Matcher fixMatcher = fixPattern.matcher(parameter);
-
                     if (!fixMatcher.find()) {
-                        throw new IllegalArgumentException("Wrong syntax for fix: " + parameter);
-                    } else {
-                        // Possible fix found
+                        throw new IllegalArgumentException("Unknown error with:" + parameter);
+                    }
+
+                    if (fixMatcher.group(1) != null) {
                         String fixName = fixMatcher.group(1);
 
-                        if (fixName != null) {
-                            try {
-                                // Create fix
-                                Fix fix = FixFactory.createFix(fixName);
+                        // Create fix with parameters
+                        Fix fix = FixFactory.createFix(fixName);
 
-                                String fixValue = fixMatcher.group(2);
-                                if (fixValue != null) {
-                                    String[] values = fixValue.split(";");
+                        String fixValue = fixMatcher.group(2);
+                        if (fixValue != null) {
+                            String[] values = fixValue.split(";");
 
-                                    // Insert fix' parameters and validate them
-                                    FixResponse response = fix.setParameters(values);
-                                    if (response == FixResponse.OK) {
-                                        fixes.add(fix);
-                                    } else {
-                                        throw new IllegalArgumentException(response.toString() + " for " + parameter);
-                                    }
-                                }
-                            } catch (IllegalArgumentException exception) {
-                                throw new IllegalArgumentException("Fix not found: " + fixName);
-                            }
+                            // Insert fix' parameters and validate them
+                            fix.setParameters(values);
+                            fixes.add(fix);
                         }
+                    } else if (fixMatcher.group(3) != null){
+                        String fixName = fixMatcher.group(3);
+
+                        // Create fix without parameters
+                        Fix fix = FixFactory.createFix(fixName);
+                        fixes.add(fix);
                     }
                 }
             }

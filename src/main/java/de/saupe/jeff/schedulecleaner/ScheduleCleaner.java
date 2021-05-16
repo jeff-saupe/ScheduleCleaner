@@ -6,8 +6,6 @@ import de.saupe.jeff.schedulecleaner.calendar.CalendarBuilder;
 import de.saupe.jeff.schedulecleaner.fixes.Fix;
 import de.saupe.jeff.schedulecleaner.fixes.FixFactory;
 import de.saupe.jeff.schedulecleaner.fixes.FixFactory.FixMethod;
-import de.saupe.jeff.schedulecleaner.fixes.FixResponse;
-import de.saupe.jeff.schedulecleaner.fixes.impl.ExcludeEvent;
 import de.saupe.jeff.schedulecleaner.misc.Properties;
 import de.saupe.jeff.schedulecleaner.misc.Utils;
 import lombok.Setter;
@@ -20,7 +18,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -56,9 +53,9 @@ public class ScheduleCleaner {
         Fix clean = FixFactory.createFix(FixMethod.CLEAN);
         addFix(clean);
 
-        // [Default] Add room as location
-        Fix location = FixFactory.createFix(FixMethod.LOCATION);
-        addFix(location);
+        // [Example] Add the room as a location
+//        Fix location = FixFactory.createFix(FixMethod.LOCATION);
+//        addFix(location);
 
         // [Example] Replaces a text with another text
 //        Fix replaceText = FixFactory.createFix(FixMethod.REPLACE);
@@ -75,11 +72,10 @@ public class ScheduleCleaner {
 //        addFix(excludeEvent);
     }
 
-    public FixResponse addFix(Fix fix) {
-        FixResponse response = fix.check();
-        if (response == FixResponse.OK)
+    public void addFix(Fix fix) throws IllegalArgumentException {
+        if (fix.check()) {
             fixes.add(fix);
-        return response;
+        }
     }
 
     @SneakyThrows
