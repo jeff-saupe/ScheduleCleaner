@@ -136,6 +136,7 @@ addFix(excludeEvent);
 
 This fix will exclude any events that **contain** the phrases `Text1`,`Text2` **and** `Text3`.
 
+---
 
 ## 💡 Contribute
 Feel free to submit pull requests, open new issues or just spread the word about this [NAK Tool](https://nak.coderesting.dev/).
