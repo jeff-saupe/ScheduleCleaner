@@ -7,15 +7,13 @@
 
 ![Comparison](comparison.gif)
 
-## 📖 Usage
+# 📖 Usage
 There are currently **three** ways to use the **Schedule Cleaner**.
-
-----
 
 ## 🧾 Option 1 | Import or download by URL
 This option allows you to **automatically import** or just **download** the cleaned calendar by URL - without touching any code!
 
-### 🛠️ 1 | Creating the base URL
+### 🛠️ Creating the base URL
 At the moment, this has to be done by yourself. In the future there might be a generator for building the URL. Stay tuned!
 
 If you want to simply clean the title of the events **without any extra adjustments**, you can use the following URL: <br />
@@ -25,8 +23,10 @@ If you want to simply clean the title of the events **without any extra adjustme
 💡 Replace **\<centuria\>** and **\<semester\>** with your corresponding details, e.g. **A19a** for centuria and **4** for
 the semester.
 
-### 🧰 1.2 | Adding adjustments to the base URL (optional)
-In the first step you've created the base URL. If you'd like to add some adjustments, which we call **fixes**, to your calendar, you'll have to
+</br>
+
+### 🧰 Making adjustments to the calendar (optional)
+In the first step you've created the base URL. If you'd like to make some adjustments, which we call **fixes**, to your calendar, you'll have to
 extend the base URL.
 
 💡 The part for adjustments **must** begin with **?** as a symbol. \
@@ -40,18 +40,20 @@ There are **three** fixes you can apply:
 | **Parameters**  | /                                                      |
 | **Usage**       | `location`                                             |
 
-| #2              | Text replacement                                       |
-|-----------------|--------------------------------------------------------|
+| #2              | Text replacement                                          |
+|-----------------|-----------------------------------------------------------|
 | **Description** | This fix replaces the text of an event with another text. |
-| **Parameters**  | Old text and new text                                  |
-| **Usage**       | `replace=Tech.Grundlagen der Informatik 2;TGdI`        |
+| **Parameters**  | Old text and new text                                     |
+| **Usage**       | `replace=Tech.Grundlagen der Informatik 2;TGdI`           |
 
-| #3              | Event exclusion                                        |
-|-----------------|--------------------------------------------------------|
-| **Description** | This fix is used to exclude specific events based on <br/>phrases it **must all contain.** |
-| **Parameters**  | Maximum of **ten** parameters                              |
-| **Usage**       | `exclude=O'Brien;Englisch`                             |
-| **Comment**     | This fix will exclude any events that **contain** the <br/>phrases `O'Brien` **and** `Englisch`. |
+| #3              | Event exclusion                                                                             |
+|-----------------|---------------------------------------------------------------------------------------------|
+| **Description** | This fix is used to exclude specific events based on phrases it **must all contain.**       |
+| **Parameters**  | Maximum of **ten** parameters                                                               |
+| **Usage**       | `exclude=O'Brien;Englisch`                                                                  |
+| **Comment**     | This fix will exclude any events that **contain** the phrases `O'Brien` **and** `Englisch`. |
+
+</br>
 
 💡 Every fix **must** begin with **&** as a symbol, **except the first one**. \
 💡 The part for parameters **must** begin with **=** as a symbol. \
@@ -61,7 +63,9 @@ There are **three** fixes you can apply:
 `https://schedule-cleaner.herokuapp.com/cleaned-schedule/a19a_4.ics?location&exclude=O'Brien;Englisch&replace=Tech.Grundlagen der Informatik 2;TGdI
 `
 
-### 🔧 1.3 | URL encoding for the adjustment part
+</br>
+
+### 🔧 URL encoding for the adjustment part
 White spaces and any other special characters are not allowed in a URL and are not accepted by most calendar
 applications. Therefore, you'll need to **encode the adjustment part** (everything behind the **?** symbol) of the URL created in 1.2.
 
@@ -72,7 +76,9 @@ applications. Therefore, you'll need to **encode the adjustment part** (everythi
 
 You can simply use any online URL encoder online, e.g. [this one here](https://meyerweb.com/eric/tools/dencoder/).
 
-### 📆 2 | Importing the calendar
+</br>
+
+### 📆 Importing the calendar
 Adding the URL into your calendar application allows **live updates** on changes.
 
 1. Within your calendar application, locate the settings where you can add a calendar by URL. <br>
@@ -80,10 +86,12 @@ Adding the URL into your calendar application allows **live updates** on changes
    - **Note**: With Google Calendar, it can take up to [12 hours until the calendar is synchronised again.](https://support.google.com/calendar/answer/37100?hl=en&ref_topic=1672445/#:~:text=It%20might%20take%20up%20to%2012%20hours%20for%20changes%20to%20show%20in%20your%20Google%20Calendar.)
 2. Use the URL you've just built in section 1.
 
-### 📥 3 | Downloading the calendar
+</br>
+
+### 📥 Downloading the calendar
 The same URL as above can also just be used to simply **download** the ICS file by pasting it into your browser.
 
----
+</br>
 
 ## 💻  Option 2 | Build it  locally via Command Line
 Download and start **run.bat** from the releases or execute the JAR via command line:
@@ -94,7 +102,7 @@ The generated .ics file can be imported into your desired calendar application.
 
 **⚠️ Note**: With this option, it's not possible to add fixes at the moment. 
 
----
+</br>
 
 ## 🛠️ Option 3 | Add fixes programmatically
 Within the class `ScheduleCleaner.java` there is a method called `initFixes()`.
@@ -136,7 +144,7 @@ addFix(excludeEvent);
 
 This fix will exclude any events that **contain** the phrases `Text1`,`Text2` **and** `Text3`.
 
----
+</br>
 
 ## 💡 Contribute
 Feel free to submit pull requests, open new issues or just spread the word about this [NAK Tool](https://nak.coderesting.dev/).
