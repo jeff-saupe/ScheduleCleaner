@@ -7,19 +7,27 @@ import de.saupe.jeff.schedulecleaner.ResponseHandler;
 import de.saupe.jeff.schedulecleaner.ScheduleCleaner;
 import de.saupe.jeff.schedulecleaner.ScheduleCleaner.CleaningAction;
 import de.saupe.jeff.schedulecleaner.environment.Environment;
+import de.saupe.jeff.schedulecleaner.fixes.Fix;
+import de.saupe.jeff.schedulecleaner.fixes.FixFactory;
 import de.saupe.jeff.schedulecleaner.misc.Properties;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.InetSocketAddress;
+import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Log4j2
 public class DynamicIcsServer extends Environment implements HttpHandler {
-    private final Pattern URLPattern = Pattern.compile(".*/([a-zA-Z][0-9]{2}[a-zA-Z])_([0-9])\\.ics");
+    private final Pattern URLPattern = Pattern.compile(".*/([a-zA-Z][0-9]{2}[a-zA-Z])_([0-9])\\.ics(\\?(.*)|)");
+    private final Pattern fixPattern = Pattern.compile("(.*)=(.*)|(.*)");
 
     @Override
     public void start() {
@@ -41,21 +49,26 @@ public class DynamicIcsServer extends Environment implements HttpHandler {
     }
 
     @Override
-    public void handle(HttpExchange exchange) {
-        String path = exchange.getRequestURI().getPath();
-        Matcher matcher = URLPattern.matcher(path);
-        if (!matcher.find()) {
-            sendNotFoundResponse(exchange);
+    public void handle(HttpExchange exchange) throws UnsupportedEncodingException {
+        String url = exchange.getRequestURI().toString();
+        url = URLDecoder.decode(url, "UTF-8");
+
+        // Check URL
+        Matcher urlMatcher = URLPattern.matcher(url);
+        if (!urlMatcher.find()) {
+            sendBadURLResponse(exchange);
             return;
         }
 
-        String centuria = matcher.group(1);
-        String semester = matcher.group(2);
+        // Check centuria and semester
+        String centuria = urlMatcher.group(1);
+        String semester = urlMatcher.group(2);
         if (centuria == null || semester == null) {
-            sendNotFoundResponse(exchange);
+            sendBadURLResponse(exchange);
             return;
         }
 
+        // Create cleaner
         ScheduleCleaner cleaner = new ScheduleCleaner(centuria, semester, CleaningAction.CLEAN);
         cleaner.setResponseHandler(new ResponseHandler() {
             @Override
@@ -68,7 +81,78 @@ public class DynamicIcsServer extends Environment implements HttpHandler {
                 sendResponse(exchange, 404, "text", message);
             }
         });
-        cleaner.clean();
+
+        String tail = urlMatcher.group(4);
+        try {
+            // Read fixes if existent
+            List<Fix> fixes = readFixes(tail);
+
+            // Add fixes
+            fixes.forEach(cleaner::addFix);
+
+            // Start cleaner
+            cleaner.clean();
+        } catch (IllegalArgumentException exception) {
+            sendBadRequestResponse(exchange, exception.getMessage());
+        }
+
+    }
+
+    private List<Fix> readFixes(String url) throws IllegalArgumentException {
+        List<Fix> fixes = new ArrayList<>();
+
+        if (url != null && !url.isEmpty()) {
+            if (StringUtils.countMatches(url, "?") != 0) {
+                throw new IllegalArgumentException("Wrong syntax: Too many question marks.");
+            } else {
+                String[] parameters = url.split("&");
+
+                // Iterate over all possible fixes
+                for(String parameter : parameters) {
+                    Matcher fixMatcher = fixPattern.matcher(parameter);
+                    if (!fixMatcher.find()) {
+                        throw new IllegalArgumentException("Unknown error with:" + parameter);
+                    }
+
+                    if (fixMatcher.group(1) != null) {
+                        String fixName = fixMatcher.group(1);
+
+                        // Create fix with parameters
+                        Fix fix = FixFactory.createFix(fixName);
+
+                        String fixValue = fixMatcher.group(2);
+                        if (fixValue != null) {
+                            String[] values = fixValue.split(";");
+
+                            // Insert fix' parameters and validate them
+                            fix.setParameters(values);
+                            fixes.add(fix);
+                        }
+                    } else if (fixMatcher.group(3) != null){
+                        String fixName = fixMatcher.group(3);
+
+                        // Create fix without parameters
+                        Fix fix = FixFactory.createFix(fixName);
+                        fixes.add(fix);
+                    }
+                }
+            }
+        }
+
+        return fixes;
+    }
+
+    private static void sendBadURLResponse(HttpExchange exchange) {
+        sendNotFoundResponse(exchange, "Bad URL format. " +
+                "Example: /cleaned-schedule/<centuria>_<semester>.ics");
+    }
+
+    private static void sendNotFoundResponse(HttpExchange exchange, String response) {
+        sendResponse(exchange, 404, "text", response);
+    }
+
+    private static void sendBadRequestResponse(HttpExchange exchange, String response) {
+        sendResponse(exchange, 400, "text", response);
     }
 
     private static void sendResponse(HttpExchange exchange, int statusCode, String contentType, String response) {
@@ -81,10 +165,5 @@ public class DynamicIcsServer extends Environment implements HttpHandler {
         } catch (IOException exception) {
             exception.printStackTrace();
         }
-    }
-
-    private static void sendNotFoundResponse(HttpExchange exchange) {
-        sendResponse(exchange, 404, "text", "Wrong URL format. " +
-                "Example: /cleaned-schedule/<centuria>_<semester>.ics");
     }
 }

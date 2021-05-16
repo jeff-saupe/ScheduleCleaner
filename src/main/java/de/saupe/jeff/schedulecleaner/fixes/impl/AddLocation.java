@@ -10,8 +10,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Log4j2
-public class AddLocation implements Fix {
+public class AddLocation extends Fix {
     private static final Pattern roomPattern = Pattern.compile("(.*)(Raum:)(.*?)(\\\\n)");
+
+    public AddLocation() {
+        super("location", 0, 0);
+    }
 
     @Override
     public void apply(CalendarComponent event) {

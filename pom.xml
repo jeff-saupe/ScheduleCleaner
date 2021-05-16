@@ -6,7 +6,7 @@
 
     <groupId>de.saupe.jeff</groupId>
     <artifactId>ScheduleCleaner</artifactId>
-    <version>1.2.1</version>
+    <version>2.0</version>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

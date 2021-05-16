@@ -4,10 +4,8 @@ import de.saupe.jeff.schedulecleaner.calendar.CalendarComponent;
 import de.saupe.jeff.schedulecleaner.calendar.CalendarComponent.ComponentType;
 import de.saupe.jeff.schedulecleaner.calendar.CalendarBuilder;
 import de.saupe.jeff.schedulecleaner.fixes.Fix;
-import de.saupe.jeff.schedulecleaner.fixes.impl.AddLocation;
-import de.saupe.jeff.schedulecleaner.fixes.impl.CleanTitle;
-import de.saupe.jeff.schedulecleaner.fixes.impl.ExcludeEvent;
-import de.saupe.jeff.schedulecleaner.fixes.impl.UpdateTitle;
+import de.saupe.jeff.schedulecleaner.fixes.FixFactory;
+import de.saupe.jeff.schedulecleaner.fixes.FixFactory.FixMethod;
 import de.saupe.jeff.schedulecleaner.misc.Properties;
 import de.saupe.jeff.schedulecleaner.misc.Utils;
 import lombok.Setter;
@@ -52,25 +50,32 @@ public class ScheduleCleaner {
      */
     private void initFixes() {
         // [Default] Title cleaning
-        addFix(new CleanTitle());
+        Fix clean = FixFactory.createFix(FixMethod.CLEAN);
+        addFix(clean);
 
-        // [Default] Add room as location
-        addFix(new AddLocation());
+        // [Example] Add the room as a location
+//        Fix location = FixFactory.createFix(FixMethod.LOCATION);
+//        addFix(location);
 
-        // [Example] Title renaming
-//        UpdateTitle updateTitle = new UpdateTitle();
-//        updateTitle.setOldTitle("Tech.Grundlagen der Informatik 2");
-//        updateTitle.setNewTitle("Technische Grundlagen der Informatik 2");
-//        addFix(updateTitle);
+        // [Example] Replaces a text with another text
+//        Fix replaceText = FixFactory.createFix(FixMethod.REPLACE);
+//        replaceText.setParameters(
+//                "Tech.Grundlagen der Informatik 2",
+//                "Technische Grundlagen der Informatik 2");
+//        addFix(replaceText);
 
         // [Example] Event exclusion
-//        ExcludeEvent excludeEvent = new ExcludeEvent();
-//        excludeEvent.addParameters("O'Brien", "Englisch");
+//        Fix excludeEvent = FixFactory.createFix(FixMethod.EXCLUDE);
+//        excludeEvent.setParameters(
+//                "O'Brien",
+//                "Englisch");
 //        addFix(excludeEvent);
     }
 
-    public void addFix(Fix fix) {
-        fixes.add(fix);
+    public void addFix(Fix fix) throws IllegalArgumentException {
+        if (fix.check()) {
+            fixes.add(fix);
+        }
     }
 
     @SneakyThrows
