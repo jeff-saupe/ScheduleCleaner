@@ -65,9 +65,10 @@ There are **three** fixes you can apply:
 
 </br>
 
-### 🔧 URL encoding for the adjustment part
+### 🔧 URL encoding (for the adjustment part)
 White spaces and any other special characters are not allowed in a URL and are not accepted by most calendar
-applications. Therefore, you'll need to **encode the adjustment part** (everything behind the **?** symbol) of the URL created in 1.2.
+applications. Therefore, you'll need to **encode the adjustment part** (everything behind the **?** symbol) of the URL
+created in the previous section.
 
  - **Not encoded:**
 `location&exclude=O'Brien;Englisch&replace=Tech.Grundlagen der Informatik 2;TGdI`
