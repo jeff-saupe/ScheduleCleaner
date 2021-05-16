@@ -8,33 +8,107 @@
 ![Comparison](comparison.gif)
 
 ## 📖 Usage
-There are two ways to use the **Schedule Cleaner**.
+There are currently **three** ways to use the **Schedule Cleaner**.
 
-### Option 1: Import or download the schedule via URL
-Adding the URL to your calendar application allows **live updates** on changes.
+----
+
+## 🧾 Option 1 | Import or download by URL
+This option allows you to **automatically import** or just **download** the cleaned calendar by URL - without touching any code!
+
+### 🛠️ 1 | Creating the base URL
+At the moment, this has to be done by yourself. In the future there might be a generator for building the URL. Stay tuned!
+
+If you want to simply clean the title of the events **without any extra adjustments**, you can use the following URL: <br />
+   - **Alternative 1:** `http://schedulecleaner.nak.coderesting.dev/cleaned-schedule/<centuria>_<semester>.ics`
+   - **Alternative 2:** `https://schedule-cleaner.herokuapp.com/cleaned-schedule/<centuria>_<semester>.ics`
+
+💡 Replace **\<centuria\>** and **\<semester\>** with your corresponding details, e.g. **A19a** for centuria and **4** for
+the semester.
+
+### 🧰 1.2 | Adding adjustments to the base URL (optional)
+In the first step you've created the base URL. If you'd like to add some adjustments, which we call **fixes**, to your calendar, you'll have to
+extend the base URL.
+
+💡 The part for adjustments **must** begin with **?** as a symbol. \
+💡 This part must be **URL encoded**. For that, please take a look at the end of this section.
+
+There are **three** fixes you can apply:
+
+| #1              | Room location                                          |
+|-----------------|--------------------------------------------------------|
+| **Description** | This fix sets the room for each event as the location. |
+| **Parameters**  | /                                                      |
+| **Usage**       | `location`                                             |
+
+| #2              | Text replacement                                       |
+|-----------------|--------------------------------------------------------|
+| **Description** | This fix sets the room for each event as the location. |
+| **Parameters**  | Old text and new text                                  |
+| **Usage**       | `replace=Tech.Grundlagen der Informatik 2;TGdI`        |
+
+| #3              | Event exclusion                                        |
+|-----------------|--------------------------------------------------------|
+| **Description** | This fix is used to exclude specific events based on <br/>phrases it **must all contain.** |
+| **Parameters**  | Maximum of ten parameters                              |
+| **Usage**       | `exclude=O'Brien;Englisch`                             |
+| **Comment**     | This fix will exclude any events that **contain** the <br/>phrases `O'Brien` **and** `Englisch`. |
+
+💡 Every fix **must** begin with **&** as a symbol, **except the first one**. \
+💡 The part for parameters **must** begin with **=** as a symbol. \
+💡 Parameters are separated by using **;** as a symbol. 
+
+**Example:** \
+`https://schedule-cleaner.herokuapp.com/cleaned-schedule/a19a_4.ics?location&exclude=O'Brien;Englisch&replace=Tech.Grundlagen der Informatik 2;TGdI
+`
+
+### 🔧 1.3 | URL encoding for the adjustment part
+White spaces and any other special characters are not allowed in a URL and are not accepted by most calendar
+applications. Therefore, you'll need to **encode the adjustment part** (everything behind the **?** symbol) of the URL created in 1.2.
+
+ - **Not encoded:**
+`location&exclude=O'Brien;Englisch&replace=Tech.Grundlagen der Informatik 2;TGdI`
+- **Encoded**:
+`location%26exclude%3DO%27Brien%3BEnglisch%26replace%3DTech.Grundlagen%20der%20Informatik%202%3BTGdI`
+
+You can simply use any online URL encoder online, e.g. [this one here](https://meyerweb.com/eric/tools/dencoder/).
+
+### 📆 2 | Importing the calendar
+Adding the URL into your calendar application allows **live updates** on changes.
 
 1. Within your calendar application, locate the settings where you can add a calendar by URL. <br>
    - [Guide for Google Calendar](https://support.google.com/calendar/answer/37100#:~:text=Use%20a%20link%20to%20add%20a%20public%20calendar)
    - **Note**: With Google Calendar, it can take up to [12 hours until the calendar is synchronised again.](https://support.google.com/calendar/answer/37100?hl=en&ref_topic=1672445/#:~:text=It%20might%20take%20up%20to%2012%20hours%20for%20changes%20to%20show%20in%20your%20Google%20Calendar.)
-2. Use the following URL and replace **\<centuria\>** and **\<semester\>** with your corresponding details: <br>
-   - **Alternative 1:** `http://schedulecleaner.nak.coderesting.dev/cleaned-schedule/<centuria>_<semester>.ics`
-   - **Alternative 2:**
-`https://schedule-cleaner.herokuapp.com/cleaned-schedule/<centuria>_<semester>.ics`
+2. Use the URL you've just built in section 1.
 
-**The URL can also just be used to download the ICS file.**
+### 📥 3 | Downloading the calendar
+The same URL as above can also just be used to simply **download** the ICS file by pasting it into your browser.
 
-### Option 2: Build the .ics file locally via Command Line
+---
+
+## 💻  Option 2 | Build it  locally via Command Line
 Download and start **run.bat** from the releases or execute the JAR via command line:
 
 `java -jar ScheduleCleaner.jar`
 
-The generated .ics file can be imported to your desired calendar application.
+The generated .ics file can be imported into your desired calendar application.
 
-## 🛠️ Apply additional fixes
+**⚠️ Note**: With this option, it's not possible to add fixes at the moment. 
+
+---
+
+## 🛠️ Option 3 | Add fixes programmatically
 Within the class `ScheduleCleaner.java` there is a method called `initFixes()`.
 There you can add two types of fixes (both are **case-insensitive**):
 
-### Replace texts
+### Add the room as the location
+This fix sets the room for each event as the location.
+
+```java
+Fix location = FixFactory.createFix(FixMethod.LOCATION);
+addFix(location);
+```
+
+### Replace a text
 This fix replaces a text of an event with another text. Two parameters are required.
 
 ```java
@@ -48,7 +122,7 @@ addFix(replaceText);
 This fix will check all attributes, e.g. the title, of all events all and replaces any occurrence
 of the phrase `Tech.Grundlagen der Informatik 2` with `TGdI`.
 
-### Exclude events
+### Exclude an event
 This fix is used to exclude specific events.  An infinite amount of parameters can be added
 
 ```java
