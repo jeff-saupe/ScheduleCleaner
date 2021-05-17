@@ -32,14 +32,8 @@ export default function ScheduleConfiguration(props: {
 	const classes = useStyles();
 	const [centuria, setCenturia] = useState<string>("");
 	const [semester, setSemester] = useState<string>("");
-	const [exclude, setExclude] = useState([{ id: uuid(), text: "" }]);
-	const [replace, setReplace] = useState([
-		{
-			before: "",
-			after: "",
-			id: uuid(),
-		},
-	]);
+	const [exclude, setExclude] = useState([]);
+	const [replace, setReplace] = useState([]);
 	const [fixRoom, setFixRoom] = useState(true);
 
 	useEffect(() => {
