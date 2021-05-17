@@ -11,6 +11,7 @@ import MuiAlert from "@material-ui/lab/Alert";
 import Header from "./components/Header";
 import Configurator from "./components/Configurator";
 import copy from "copy-to-clipboard";
+import useStyles from "./styles/ConfiguratorStyles";
 
 function downloadICS(icsURL: string, name: string) {
 	const anchor = document.createElement("a");
@@ -23,6 +24,7 @@ function downloadICS(icsURL: string, name: string) {
 }
 
 function App() {
+	const classes = useStyles();
 	const [icsURL, setIcsURL] = useState<string | null>(null);
 	const [icsName, setIcsName] = useState<string>("");
 	const [copied, setCopied] = useState({
@@ -55,6 +57,10 @@ function App() {
 					<ButtonGroup>
 						<Tooltip title="Copies the URL into your clipboard" arrow>
 							<Button
+								classes={{
+									root: classes.enabledButton,
+									disabled: classes.disabledButton
+								}}
 								color="primary"
 								disabled={icsURL === null}
 								onClick={() => generateIcsURL(icsURL || "")}
@@ -64,6 +70,10 @@ function App() {
 						</Tooltip>
 
 						<Button
+							classes={{
+								root: classes.enabledButton,
+								disabled: classes.disabledButton
+							}}
 							color="primary"
 							disabled={icsURL === null}
 							onClick={downloadICS.bind(null, icsURL || "", icsName)}
