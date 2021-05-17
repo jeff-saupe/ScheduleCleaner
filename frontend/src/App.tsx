@@ -5,6 +5,7 @@ import {
 	ButtonGroup,
 	CssBaseline,
 	Snackbar,
+	Tooltip
 } from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
 import Header from "./components/Header";
@@ -30,18 +31,18 @@ function App() {
 		message: "",
 	});
 
-	function copyIcsURL(icsURL: string) {
+	function generateIcsURL(icsURL: string): void {
 		if (copy(icsURL))
 			setCopied({
 				open: true,
 				status: true,
-				message: "Copied URL to the clipboard",
+				message: "Copied URL to the clipboard.",
 			});
 		else
 			setCopied({
 				open: true,
 				status: false,
-				message: "Failed to copy URL to the clipboard",
+				message: "Failed to copy URL to the clipboard!",
 			});
 	}
 	return (
@@ -52,13 +53,15 @@ function App() {
 
 				<Box display="flex" justifyContent="center" alignItems="center" m={2}>
 					<ButtonGroup>
-						<Button
-							color="primary"
-							disabled={icsURL === null}
-							onClick={() => copyIcsURL(icsURL || "")}
-						>
-							Copy URL
-						</Button>
+						<Tooltip title="Copies the URL into your clipboard" arrow>
+							<Button
+								color="primary"
+								disabled={icsURL === null}
+								onClick={() => generateIcsURL(icsURL || "")}
+							>
+								Generate URL
+							</Button>
+						</Tooltip>
 
 						<Button
 							color="primary"
