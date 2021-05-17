@@ -14,7 +14,7 @@ import ReplaceList from "./ReplaceList";
 import RoomList from "./RoomList";
 import validate from "../utils/Validate";
 import buildURL from "../utils/BuildURL";
-import useStyles from "../styles/ScheduleConfigurationStyles";
+import useStyles from "../styles/ConfiguratorStyles";
 
 const semesters = [1, 2, 3, 4, 5, 6, 7];
 
