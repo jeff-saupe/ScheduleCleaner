@@ -1,6 +1,6 @@
-import validate from "./validate";
+import validate from "./Validate";
 
-export default function buildURL(
+export default function BuildURL(
 	centuria: string,
 	semester: string,
 	exclude: { text: string }[],

@@ -9,11 +9,11 @@ import {
 	TextField,
 } from "@material-ui/core";
 import { v4 as uuid } from "uuid";
-import Filter from "./FilterIcon";
+import Filter from "../styles/FilterIcon";
 import React from "react";
 import { Add, Delete } from "@material-ui/icons";
-import validate from "./validate";
-import useStyles from "./ScheduleConfigurationStyles";
+import validate from "../utils/Validate";
+import useStyles from "../styles/ScheduleConfigurationStyles";
 
 export default function ExcludeList(props: {
 	exclude: { id: string; text: string }[];

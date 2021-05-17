@@ -9,10 +9,10 @@ import {
 	TextField,
 } from "@material-ui/core";
 import { v4 as uuid } from "uuid";
-import validate from "./validate";
+import validate from "../utils/Validate";
 import React from "react";
 import { Add, Delete, Edit } from "@material-ui/icons";
-import useStyles from "./ScheduleConfigurationStyles";
+import useStyles from "../styles/ScheduleConfigurationStyles";
 
 export default function ReplaceList(props: {
 	replace: { before: string; after: string; id: string }[];
