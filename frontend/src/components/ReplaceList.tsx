@@ -6,13 +6,15 @@ import {
 	ListItemIcon,
 	ListItemSecondaryAction,
 	ListSubheader,
+	ListItemText,
 	TextField,
+	Tooltip
 } from "@material-ui/core";
 import { v4 as uuid } from "uuid";
-import validate from "./validate";
+import validate from "../utils/Validate";
 import React from "react";
 import { Add, Delete, Edit } from "@material-ui/icons";
-import useStyles from "./ScheduleConfigurationStyles";
+import useStyles from "../styles/ConfiguratorStyles";
 
 export default function ReplaceList(props: {
 	replace: { before: string; after: string; id: string }[];
@@ -23,29 +25,32 @@ export default function ReplaceList(props: {
 		<List
 			subheader={
 				<ListSubheader className={classes.listSubheader}>
-					Replace a text
-					<Button
-						variant="outlined"
-						startIcon={<Add />}
-						onClick={(_) =>
-							props.setReplace([
-								...props.replace,
-								{ before: "", after: "", id: uuid() },
-							])
-						}
-					>
-						Add
-					</Button>
+					<ListItemIcon>
+						<Edit />
+					</ListItemIcon>
+					<ListItemText className={classes.listItemText}>
+						Replace a text
+					</ListItemText>
+					<Tooltip title="Replace the text of an event with another text" arrow>
+						<Button
+							variant="outlined"
+							startIcon={<Add />}
+							onClick={(_) =>
+								props.setReplace([
+									...props.replace,
+									{ before: "", after: "", id: uuid() },
+								])
+							}
+						>
+							Add
+						</Button>
+					</Tooltip>
 				</ListSubheader>
 			}
 		>
 			{props.replace.map((replaceItem, index) => (
 				<React.Fragment key={replaceItem.id}>
 					<ListItem>
-						<ListItemIcon>
-							<Edit />
-						</ListItemIcon>
-
 						<TextField
 							margin="dense"
 							variant="outlined"

@@ -1,14 +1,8 @@
 import {
 	Box,
-	Checkbox,
 	Container,
 	Divider,
 	Grid,
-	List,
-	ListItem,
-	ListItemIcon,
-	ListItemSecondaryAction,
-	ListItemText,
 	MenuItem,
 	Paper,
 	TextField,
@@ -17,10 +11,10 @@ import {
 import React, { useEffect, useState } from "react";
 import ExcludeList from "./ExcludeList";
 import ReplaceList from "./ReplaceList";
-import validate from "./validate";
-import buildURL from "./buildURL";
-import useStyles from "./ScheduleConfigurationStyles";
-import { LocationOn } from "@material-ui/icons";
+import RoomList from "./RoomList";
+import validate from "../utils/Validate";
+import buildURL from "../utils/BuildURL";
+import useStyles from "../styles/ConfiguratorStyles";
 
 const semesters = [1, 2, 3, 4, 5, 6, 7];
 
@@ -50,6 +44,7 @@ export default function ScheduleConfiguration(props: {
 					<Grid container alignItems="flex-start" spacing={3}>
 						<Grid item xs={6}>
 							<TextField
+                                autoFocus 
 								margin="dense"
 								variant="outlined"
 								label="Centuria"
@@ -87,23 +82,8 @@ export default function ScheduleConfiguration(props: {
 
 				<Divider className={classes.divider} />
 
-				<List>
-					<ListItem>
-						<ListItemIcon>
-							<LocationOn />
-						</ListItemIcon>
-						<ListItemText>Set the room as the event's location</ListItemText>
-						<ListItemSecondaryAction>
-							<Checkbox
-								edge="end"
-								checked={fixRoom}
-								color="primary"
-								onChange={(val: any) => setFixRoom(val.target.checked)}
-							/>
-						</ListItemSecondaryAction>
-					</ListItem>
-				</List>
-				
+				<RoomList fixRoom={fixRoom} setFixRoom={setFixRoom} />
+
 				<Divider className={classes.divider} />
 
 				<ExcludeList exclude={exclude} setExclude={setExclude} />

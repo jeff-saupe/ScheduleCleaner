@@ -12,6 +12,10 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: "space-between",
 		alignItems: "center",
 	},
+	listItemText: {
+		color: "white",
+		cursor: "default"
+	}
 }));
 
 export default useStyles;

@@ -1,6 +1,6 @@
 import { Box, Grid, Typography } from "@material-ui/core";
 import React from "react";
-import useStyles from "./HeaderStyles";
+import useStyles from "../styles/HeaderStyles";
 
 export default function Header() {
 	const classes = useStyles();

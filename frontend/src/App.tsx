@@ -7,8 +7,8 @@ import {
 	Snackbar,
 } from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
-import Header from "./Header";
-import ScheduleConfiguration from "./ScheduleConfiguration";
+import Header from "./components/Header";
+import Configurator from "./components/Configurator";
 import copy from "copy-to-clipboard";
 
 function downloadICS(icsURL: string, name: string) {
@@ -70,7 +70,7 @@ function App() {
 					</ButtonGroup>
 				</Box>
 
-				<ScheduleConfiguration setIcsURL={setIcsURL} setIcsName={setIcsName} />
+				<Configurator setIcsURL={setIcsURL} setIcsName={setIcsName} />
 
 				<Box display="flex" justifyContent="center" alignItems="center" m={3}>
 					<Button
