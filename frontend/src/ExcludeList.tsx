@@ -1,6 +1,5 @@
 import {
 	Button,
-	Divider,
 	IconButton,
 	List,
 	ListItem,
@@ -25,7 +24,7 @@ export default function ExcludeList(props: {
 		<List
 			subheader={
 				<ListSubheader className={classes.listSubheader}>
-					Exclude subjects that contain
+					Exclude events which contain the following phrases
 					<Button
 						variant="outlined"
 						startIcon={<Add />}
@@ -49,7 +48,7 @@ export default function ExcludeList(props: {
 							variant="outlined"
 							value={excludeItem.text}
 							error={!validate.excludeText(excludeItem.text)}
-							label="text"
+							label="Text"
 							fullWidth
 							className={classes.listInput}
 							onChange={(e) => {
@@ -71,7 +70,6 @@ export default function ExcludeList(props: {
 							</IconButton>
 						</ListItemSecondaryAction>
 					</ListItem>
-					<Divider className={classes.divider} />
 				</React.Fragment>
 			))}
 		</List>

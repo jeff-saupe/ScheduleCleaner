@@ -2,6 +2,7 @@ import {
 	Box,
 	Checkbox,
 	Container,
+	Divider,
 	Grid,
 	List,
 	ListItem,
@@ -19,6 +20,7 @@ import ReplaceList from "./ReplaceList";
 import { v4 as uuid } from "uuid";
 import validate from "./validate";
 import buildURL from "./buildURL";
+import useStyles from "./ScheduleConfigurationStyles";
 import { LocationOn } from "@material-ui/icons";
 
 const semesters = [1, 2, 3, 4, 5, 6, 7];
@@ -27,6 +29,7 @@ export default function ScheduleConfiguration(props: {
 	setIcsURL: any;
 	setIcsName: any;
 }) {
+	const classes = useStyles();
 	const [centuria, setCenturia] = useState<string>("");
 	const [semester, setSemester] = useState<string>("");
 	const [exclude, setExclude] = useState([{ id: uuid(), text: "" }]);
@@ -89,9 +92,7 @@ export default function ScheduleConfiguration(props: {
 					</Grid>
 				</Box>
 
-				<ExcludeList exclude={exclude} setExclude={setExclude} />
-
-				<ReplaceList replace={replace} setReplace={setReplace} />
+				<Divider className={classes.divider} />
 
 				<List>
 					<ListItem>
@@ -109,6 +110,15 @@ export default function ScheduleConfiguration(props: {
 						</ListItemSecondaryAction>
 					</ListItem>
 				</List>
+				
+				<Divider className={classes.divider} />
+
+				<ExcludeList exclude={exclude} setExclude={setExclude} />
+
+				<Divider className={classes.divider} />
+
+				<ReplaceList replace={replace} setReplace={setReplace} />
+
 			</Paper>
 		</Container>
 	);

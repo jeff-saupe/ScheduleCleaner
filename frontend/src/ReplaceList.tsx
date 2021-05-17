@@ -1,6 +1,5 @@
 import {
 	Button,
-	Divider,
 	IconButton,
 	List,
 	ListItem,
@@ -24,7 +23,7 @@ export default function ReplaceList(props: {
 		<List
 			subheader={
 				<ListSubheader className={classes.listSubheader}>
-					Replace subject titles
+					Replace a text
 					<Button
 						variant="outlined"
 						startIcon={<Add />}
@@ -89,7 +88,6 @@ export default function ReplaceList(props: {
 							</IconButton>
 						</ListItemSecondaryAction>
 					</ListItem>
-					<Divider className={classes.divider} />
 				</React.Fragment>
 			))}
 		</List>
