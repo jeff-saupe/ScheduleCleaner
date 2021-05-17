@@ -17,7 +17,6 @@ import {
 import React, { useEffect, useState } from "react";
 import ExcludeList from "./ExcludeList";
 import ReplaceList from "./ReplaceList";
-import { v4 as uuid } from "uuid";
 import validate from "./validate";
 import buildURL from "./buildURL";
 import useStyles from "./ScheduleConfigurationStyles";
