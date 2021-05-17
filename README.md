@@ -15,9 +15,9 @@ There are currently **three** ways to use the **Schedule Cleaner**.
 
 This option allows you to **automatically import** or just **download** the cleaned calendar by URL - without touching any code!
 
-You have two options to create your schedule URL.
+There are **two** ways to create your schedule URL:
 
-1. Visit [https://schedule-cleaner.herokuapp.com](https://schedule-cleaner.herokuapp.com) to configure your schedule. You can skip to [📆 Importing the calendar](#-Importing-the-calendar) when you have your URL.
+1. Visit [schedule-cleaner.herokuapp.com](https://schedule-cleaner.herokuapp.com) to configure your schedule automatically. You can skip to [📆 Importing the calendar](#-Importing-the-calendar) as soon as you've generated the URL.
 2. Configure the URL manually as described below.
 
 </br>
@@ -87,7 +87,7 @@ You can simply use any online URL encoder online, e.g. [this one here](https://m
 
 ### 📆 Importing the calendar
 
-Adding the URL into your calendar application allows **live updates** on changes.
+Adding the URL to your calendar application allows **live updates** on changes.
 
 1. Within your calendar application, locate the settings where you can add a calendar by URL. <br>
    - [Guide for Google Calendar](https://support.google.com/calendar/answer/37100#:~:text=Use%20a%20link%20to%20add%20a%20public%20calendar)
@@ -117,7 +117,7 @@ The generated .ics file can be imported into your desired calendar application.
 ## 🛠️ Option 3 | Add fixes programmatically
 
 Within the class `ScheduleCleaner.java` there is a method called `initFixes()`.
-There you can add two types of fixes (both are **case-insensitive**):
+There you can add tree types of fixes (all are **case-insensitive**):
 
 ### Add the room as the location
 
