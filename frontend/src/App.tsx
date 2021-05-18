@@ -5,11 +5,13 @@ import {
 	ButtonGroup,
 	CssBaseline,
 	Snackbar,
+	Tooltip
 } from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
 import Header from "./components/Header";
 import Configurator from "./components/Configurator";
 import copy from "copy-to-clipboard";
+import useStyles from "./styles/ConfiguratorStyles";
 
 function downloadICS(icsURL: string, name: string) {
 	const anchor = document.createElement("a");
@@ -22,6 +24,7 @@ function downloadICS(icsURL: string, name: string) {
 }
 
 function App() {
+	const classes = useStyles();
 	const [icsURL, setIcsURL] = useState<string | null>(null);
 	const [icsName, setIcsName] = useState<string>("");
 	const [copied, setCopied] = useState({
@@ -30,18 +33,18 @@ function App() {
 		message: "",
 	});
 
-	function copyIcsURL(icsURL: string) {
+	function generateIcsURL(icsURL: string): void {
 		if (copy(icsURL))
 			setCopied({
 				open: true,
 				status: true,
-				message: "Copied URL to the clipboard",
+				message: "Copied URL to the clipboard.",
 			});
 		else
 			setCopied({
 				open: true,
 				status: false,
-				message: "Failed to copy URL to the clipboard",
+				message: "Failed to copy URL to the clipboard!",
 			});
 	}
 	return (
@@ -52,15 +55,25 @@ function App() {
 
 				<Box display="flex" justifyContent="center" alignItems="center" m={2}>
 					<ButtonGroup>
-						<Button
-							color="primary"
-							disabled={icsURL === null}
-							onClick={() => copyIcsURL(icsURL || "")}
-						>
-							Copy URL
-						</Button>
+						<Tooltip title="Copies the URL into your clipboard" arrow>
+							<Button
+								classes={{
+									root: classes.enabledButton,
+									disabled: classes.disabledButton
+								}}
+								color="primary"
+								disabled={icsURL === null}
+								onClick={() => generateIcsURL(icsURL || "")}
+							>
+								Generate URL
+							</Button>
+						</Tooltip>
 
 						<Button
+							classes={{
+								root: classes.enabledButton,
+								disabled: classes.disabledButton
+							}}
 							color="primary"
 							disabled={icsURL === null}
 							onClick={downloadICS.bind(null, icsURL || "", icsName)}

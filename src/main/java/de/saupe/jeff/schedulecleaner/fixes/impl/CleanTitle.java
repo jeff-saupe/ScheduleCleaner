@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 @Log4j2
 public class CleanTitle extends Fix {
     private static final Pattern titlePattern = Pattern.compile("(.*)(Veranstaltung:)(.*?)(\\\\n)");
-    private static final Pattern titleWithCodePattern = Pattern.compile("(.) (.[0-9]* )(.*)");
+    private static final Pattern titleWithCodePattern = Pattern.compile("(.) (.[0-9]{2,3})(.*)");
     private static final Pattern titleWithoutCodePattern = Pattern.compile("(.) (.*)");
 
     public CleanTitle() {
@@ -43,12 +43,12 @@ public class CleanTitle extends Fix {
 
             matcher = titleWithCodePattern.matcher(module);
             if (matcher.find()) {
-                return matcher.group(3);
+                return matcher.group(3).trim();
             }
 
             matcher = titleWithoutCodePattern.matcher(module);
             if (matcher.find()) {
-                return matcher.group(2);
+                return matcher.group(2).trim();
             }
         }
         return null;
