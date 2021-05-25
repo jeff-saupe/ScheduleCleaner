@@ -15,6 +15,12 @@ const useStyles = makeStyles((theme) => ({
 	listItemText: {
 		color: "white",
 		cursor: "default"
+	},
+	enabledButton: {
+		fontWeight: "bold"
+	},
+	disabledButton: {
+		fontWeight: "normal"
 	}
 }));
 
