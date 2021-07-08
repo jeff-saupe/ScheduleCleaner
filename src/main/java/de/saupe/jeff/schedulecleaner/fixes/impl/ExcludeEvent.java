@@ -20,10 +20,11 @@ public class ExcludeEvent extends Fix {
 
     public boolean findParameters(CalendarComponent event) {
         String text = event.toString();
+        boolean exclude = false;
         for (String parameter : getParameters()) {
-            if (!StringUtils.containsIgnoreCase(text, parameter))
-                return false;
+            if (StringUtils.containsIgnoreCase(text, parameter))
+                exclude = true;
         }
-        return true;
+        return exclude;
     }
 }
