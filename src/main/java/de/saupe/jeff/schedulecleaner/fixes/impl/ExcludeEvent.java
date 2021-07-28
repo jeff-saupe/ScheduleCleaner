@@ -9,7 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 public class ExcludeEvent extends Fix {
 
     public ExcludeEvent() {
-        super("exclude", 1, 10);
+        super("exclude", 1, 99);
     }
 
     @Override
