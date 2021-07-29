@@ -8,9 +8,9 @@ const validate = {
 	semester(semester: string) {
 		return SEMESTER_REGEX.test(semester);
 	},
-	excludeText(text: string) {
-		return !text.includes(";");
-	},
+	//excludeText(text: string) {
+	//	return !text.includes(";");
+	//},
 	replaceText(text: string) {
 		return !text.includes(";");
 	},
