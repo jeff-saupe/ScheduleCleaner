@@ -18,7 +18,16 @@ This option allows you to **automatically import** or just **download** the clea
 There are **two** ways to create your schedule URL:
 
 1. Visit [schedule-cleaner.herokuapp.com](https://schedule-cleaner.herokuapp.com) to configure your schedule automatically. You can skip to [📆 Importing the calendar](#-Importing-the-calendar) as soon as you've generated the URL.
+    </br>
+    </br>
+    <details>
+    <summary>➡️ Example configuration ⬅️</summary>
+    
+    ![Example](./meta/example.jpg)
+    </details>
+    </br>
 2. Configure the URL manually as described below.
+
 
 </br>
 
@@ -42,22 +51,28 @@ extend the base URL.
 
 There are **three** fixes you can apply:
 
-| #1              | Room location                                          |
+| #1              | Title                                                  |
+| --------------- | ------------------------------------------------------ |
+| **Description** | This fix is used to keep the module code in the title. |
+| **Parameters**  | /                                                      |
+| **Usage**       | `keepCode`                                             |
+
+| #2              | Room location                                          |
 | --------------- | ------------------------------------------------------ |
 | **Description** | This fix sets the room for each event as the location. |
 | **Parameters**  | /                                                      |
 | **Usage**       | `location`                                             |
 
-| #2              | Text replacement                                          |
+| #3              | Text replacement                                          |
 | --------------- | --------------------------------------------------------- |
 | **Description** | This fix replaces the text of an event with another text. |
 | **Parameters**  | Old text and new text                                     |
 | **Usage**       | `replace=Tech.Grundlagen der Informatik 2;TGdI`           |
 
-| #3              | Event exclusion                                                                             |
+| #4              | Event exclusion                                                                             |
 | --------------- | ------------------------------------------------------------------------------------------- |
 | **Description** | This fix is used to exclude specific events based on phrases it **must all contain.**       |
-| **Parameters**  | Minimum of **one** and maximum of **ten** parameters                                        |
+| **Parameters**  | Minimum of **one** and maximum of **99** parameters                                        |
 | **Usage**       | `exclude=O'Brien;Englisch`                                                                  |
 | **Comment**     | This fix will exclude any events that **contain** the phrases `O'Brien` **and** `Englisch`. |
 

@@ -3,13 +3,14 @@ package de.saupe.jeff.schedulecleaner.fixes.impl;
 import de.saupe.jeff.schedulecleaner.calendar.CalendarAttribute;
 import de.saupe.jeff.schedulecleaner.calendar.CalendarComponent;
 import de.saupe.jeff.schedulecleaner.fixes.Fix;
+import de.saupe.jeff.schedulecleaner.fixes.FixMethod;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 public class ReplaceText extends Fix {
 
     public ReplaceText() {
-        super("replace", 2, 2);
+        super(FixMethod.REPLACE, 2, 2);
     }
 
     @Override

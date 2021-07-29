@@ -4,12 +4,13 @@ import de.saupe.jeff.schedulecleaner.calendar.CalendarComponent;
 import de.saupe.jeff.schedulecleaner.fixes.Fix;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
+import de.saupe.jeff.schedulecleaner.fixes.FixMethod;
 
 @Log4j2
 public class ExcludeEvent extends Fix {
 
     public ExcludeEvent() {
-        super("exclude", 1, 99);
+        super(FixMethod.EXCLUDE, 1, 99);
     }
 
     @Override
@@ -20,11 +21,11 @@ public class ExcludeEvent extends Fix {
 
     public boolean findParameters(CalendarComponent event) {
         String text = event.toString();
-        boolean exclude = false;
+        // The event must contain ALL parameters, not only one
         for (String parameter : getParameters()) {
-            if (StringUtils.containsIgnoreCase(text, parameter))
-                exclude = true;
+            if (!StringUtils.containsIgnoreCase(text, parameter))
+                return false;
         }
-        return exclude;
+        return true;
     }
 }

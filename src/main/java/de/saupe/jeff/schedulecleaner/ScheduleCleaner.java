@@ -5,7 +5,7 @@ import de.saupe.jeff.schedulecleaner.calendar.CalendarComponent.ComponentType;
 import de.saupe.jeff.schedulecleaner.calendar.CalendarBuilder;
 import de.saupe.jeff.schedulecleaner.fixes.Fix;
 import de.saupe.jeff.schedulecleaner.fixes.FixFactory;
-import de.saupe.jeff.schedulecleaner.fixes.FixFactory.FixMethod;
+import de.saupe.jeff.schedulecleaner.fixes.FixMethod;
 import de.saupe.jeff.schedulecleaner.misc.Properties;
 import de.saupe.jeff.schedulecleaner.misc.Utils;
 import lombok.Setter;
@@ -50,7 +50,7 @@ public class ScheduleCleaner {
      */
     private void initFixes() {
         // [Default] Title cleaning
-        Fix clean = FixFactory.createFix(FixMethod.CLEAN);
+        Fix clean = FixFactory.createFix(FixMethod.TITLE);
         addFix(clean);
 
         // [Example] Add the room as a location
@@ -74,6 +74,10 @@ public class ScheduleCleaner {
 
     public void addFix(Fix fix) throws IllegalArgumentException {
         if (fix.check()) {
+            if(fix.getMethod() == FixMethod.TITLE) {
+                // Override default CleanTitle of initFixes()
+                fixes.removeIf(f -> f.getMethod() == FixMethod.TITLE);
+            }
             fixes.add(fix);
         }
     }
@@ -99,7 +103,9 @@ public class ScheduleCleaner {
         // Apply fixes
         for (CalendarComponent event : events) {
             for (Fix fix : fixes) {
-                fix.apply(event);
+                if (!event.isExcluded()) {
+                    fix.apply(event);
+                }
             }
         }
 
