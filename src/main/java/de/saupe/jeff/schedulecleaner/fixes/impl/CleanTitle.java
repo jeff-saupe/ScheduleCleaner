@@ -18,7 +18,7 @@ public class CleanTitle extends Fix {
     private static final Pattern titleWithoutCodePattern = Pattern.compile("([^\\s]+) (.*)");       // Example: Z Zenturienbetreuung
 
     public CleanTitle() {
-        super(FixMethod.CLEAN, 0, 1);
+        super(FixMethod.TITLE, 0, 1);
     }
 
     @Override

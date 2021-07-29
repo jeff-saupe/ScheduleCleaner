@@ -13,7 +13,7 @@ public class FixFactory {
 
     public static Fix createFix(FixMethod method) {
         switch (method){
-            case CLEAN: return new CleanTitle();
+            case TITLE: return new CleanTitle();
             case LOCATION: return new AddLocation();
             case REPLACE: return new ReplaceText();
             case EXCLUDE: return new ExcludeEvent();
