@@ -4,6 +4,7 @@ import de.saupe.jeff.schedulecleaner.calendar.CalendarAttribute;
 import de.saupe.jeff.schedulecleaner.calendar.CalendarComponent;
 import de.saupe.jeff.schedulecleaner.calendar.exceptions.AttributeNotFoundException;
 import de.saupe.jeff.schedulecleaner.fixes.Fix;
+import de.saupe.jeff.schedulecleaner.fixes.FixMethod;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.regex.Matcher;
@@ -14,7 +15,7 @@ public class AddLocation extends Fix {
     private static final Pattern roomPattern = Pattern.compile("(.*)(Raum:)(.*?)(\\\\n)");
 
     public AddLocation() {
-        super("location", 0, 0);
+        super(FixMethod.LOCATION, 0, 0);
     }
 
     @Override

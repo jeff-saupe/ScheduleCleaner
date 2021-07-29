@@ -10,7 +10,7 @@ import java.util.List;
 
 public abstract class Fix {
     @Getter
-    private final String alias;
+    private final FixMethod method;
     @Getter
     private final int minParameters;
     @Getter
@@ -19,8 +19,8 @@ public abstract class Fix {
     @Getter
     private List<String> parameters = new ArrayList<>();
 
-    public Fix(String alias, int minParameters, int maxParameters) {
-        this.alias = alias;
+    public Fix(FixMethod method, int minParameters, int maxParameters) {
+        this.method = method;
         this.minParameters = minParameters;
         this.maxParameters = maxParameters;
     }
@@ -42,10 +42,10 @@ public abstract class Fix {
      */
     private boolean check(List<String> parameters) {
         if (parameters.size() < minParameters) {
-            throw new IllegalArgumentException(String.format("Too few parameters for '%s'", alias));
+            throw new IllegalArgumentException(String.format("Too few parameters for '%s'", method.name()));
         }
         if (parameters.size() > maxParameters) {
-            throw new IllegalArgumentException(String.format("Too many parameters for '%s'", alias));
+            throw new IllegalArgumentException(String.format("Too many parameters for '%s'", method.name()));
         }
         return true;
     }

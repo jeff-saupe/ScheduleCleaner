@@ -5,13 +5,10 @@ export default function BuildURL(
 	semester: string,
 	exclude: { text: string }[],
 	replace: { before: string; after: string }[],
-	fixRoom: boolean
+	fixRoom: boolean,
+	keepCodeInTitle: boolean
 ) {
 	if (!validate.centuria(centuria) || !validate.semester(semester)) return null;
-
-	for (const excludeItem of exclude) {
-		if (!validate.excludeText(excludeItem.text)) return null;
-	}
 
 	for (const replaceItem of replace) {
 		if (
@@ -25,11 +22,17 @@ export default function BuildURL(
 	);
 
 	const filteredExclude = exclude.filter((item) => item.text.trim().length > 0);
+
+	
 	if (filteredExclude.length > 0) {
-		icsURL.searchParams.append(
-			"exclude",
-			`${filteredExclude.map((item) => item.text).join(";")}`
-		);
+		for (const excludeItem of exclude) {
+			//if (!validate.excludeText(excludeItem.text)) return null;
+	
+			icsURL.searchParams.append(
+				"exclude",
+				`${excludeItem.text}`
+			);
+		}
 	}
 
 	const filteredReplace = replace.filter(
@@ -43,6 +46,10 @@ export default function BuildURL(
 				`${replaceItem.before};${replaceItem.after}`
 			);
 		}
+	}
+
+	if (keepCodeInTitle) {
+		icsURL.searchParams.append("title", "keepCode");
 	}
 
 	if (fixRoom) {

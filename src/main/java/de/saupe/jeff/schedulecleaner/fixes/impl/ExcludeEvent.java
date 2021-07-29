@@ -4,12 +4,13 @@ import de.saupe.jeff.schedulecleaner.calendar.CalendarComponent;
 import de.saupe.jeff.schedulecleaner.fixes.Fix;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
+import de.saupe.jeff.schedulecleaner.fixes.FixMethod;
 
 @Log4j2
 public class ExcludeEvent extends Fix {
 
     public ExcludeEvent() {
-        super("exclude", 1, 99);
+        super(FixMethod.EXCLUDE, 1, 99);
     }
 
     @Override

@@ -12,6 +12,7 @@ import React, { useEffect, useState } from "react";
 import ExcludeList from "./ExcludeList";
 import ReplaceList from "./ReplaceList";
 import RoomList from "./RoomList";
+import TitleList from "./TitleList";
 import validate from "../utils/Validate";
 import buildURL from "../utils/BuildURL";
 import useStyles from "../styles/ConfiguratorStyles";
@@ -28,11 +29,12 @@ export default function ScheduleConfiguration(props: {
 	const [exclude, setExclude] = useState([]);
 	const [replace, setReplace] = useState([]);
 	const [fixRoom, setFixRoom] = useState(true);
+	const [keepCodeInTitle, setKeepCodeInTitle] = useState(false);
 
 	useEffect(() => {
-		props.setIcsURL(buildURL(centuria, semester, exclude, replace, fixRoom));
+		props.setIcsURL(buildURL(centuria, semester, exclude, replace, fixRoom, keepCodeInTitle));
 		props.setIcsName(`${centuria}_${semester}`);
-	}, [centuria, semester, exclude, replace, fixRoom, props]);
+	}, [centuria, semester, exclude, replace, fixRoom, keepCodeInTitle, props]);
 
 	return (
 		<Container maxWidth="sm">
@@ -83,6 +85,10 @@ export default function ScheduleConfiguration(props: {
 				<Divider className={classes.divider} />
 
 				<RoomList fixRoom={fixRoom} setFixRoom={setFixRoom} />
+
+				<Divider className={classes.divider} />
+
+				<TitleList keepCodeInTitle={keepCodeInTitle} setKeepCodeInTitle={setKeepCodeInTitle} />
 
 				<Divider className={classes.divider} />
 

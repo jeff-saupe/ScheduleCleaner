@@ -29,7 +29,7 @@ export default function ReplaceList(props: {
 						<Edit />
 					</ListItemIcon>
 					<ListItemText className={classes.listItemText}>
-						Replace a text
+						Replace text
 					</ListItemText>
 					<Tooltip title="Replace the text of an event with another text" arrow>
 						<Button

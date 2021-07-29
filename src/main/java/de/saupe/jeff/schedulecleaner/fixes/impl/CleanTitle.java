@@ -4,6 +4,7 @@ import de.saupe.jeff.schedulecleaner.calendar.CalendarAttribute;
 import de.saupe.jeff.schedulecleaner.calendar.CalendarComponent;
 import de.saupe.jeff.schedulecleaner.calendar.exceptions.AttributeNotFoundException;
 import de.saupe.jeff.schedulecleaner.fixes.Fix;
+import de.saupe.jeff.schedulecleaner.fixes.FixMethod;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.regex.Matcher;
@@ -12,11 +13,12 @@ import java.util.regex.Pattern;
 @Log4j2
 public class CleanTitle extends Fix {
     private static final Pattern titlePattern = Pattern.compile("(.*)(Veranstaltung:)(.*?)(\\\\n)");
-    private static final Pattern titleWithCodePattern = Pattern.compile("(.) (.[0-9]{2,3})(.*)");
-    private static final Pattern titleWithoutCodePattern = Pattern.compile("(.) (.*)");
+
+    private static final Pattern titleWithCodePattern = Pattern.compile("(.) (.[0-9]{2,3})(.*)");   // Example: V A113 Usability Engineering
+    private static final Pattern titleWithoutCodePattern = Pattern.compile("([^\\s]+) (.*)");       // Example: Z Zenturienbetreuung
 
     public CleanTitle() {
-        super("clean", 0, 0);
+        super(FixMethod.CLEAN, 0, 1);
     }
 
     @Override
@@ -37,18 +39,36 @@ public class CleanTitle extends Fix {
     }
 
     private String findTitleInDescription(String description) {
+        boolean keepCode = false;
+        if (getParameters().size() != 0) {
+            String parameter = getParameters().get(0);
+            if (parameter.equalsIgnoreCase("keepCode")) {
+                keepCode = true;
+            }
+        }
+
         Matcher matcher = titlePattern.matcher(description);
         if (matcher.find()) {
             String module = matcher.group(3).trim();
 
             matcher = titleWithCodePattern.matcher(module);
             if (matcher.find()) {
+                if (keepCode) {
+                    return matcher.group(2).trim() + " " + matcher.group(3).trim();
+                }
                 return matcher.group(3).trim();
             }
 
             matcher = titleWithoutCodePattern.matcher(module);
             if (matcher.find()) {
-                return matcher.group(2).trim();
+                String match = matcher.group(2).trim();
+                // Fix for duplication of "WP" in title
+                match = match.replaceFirst("WP ", "");
+
+                if (keepCode) {
+                    return matcher.group(1).trim() + " " + match;
+                }
+                return match;
             }
         }
         return null;
