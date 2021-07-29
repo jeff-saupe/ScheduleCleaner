@@ -18,7 +18,16 @@ This option allows you to **automatically import** or just **download** the clea
 There are **two** ways to create your schedule URL:
 
 1. Visit [schedule-cleaner.herokuapp.com](https://schedule-cleaner.herokuapp.com) to configure your schedule automatically. You can skip to [📆 Importing the calendar](#-Importing-the-calendar) as soon as you've generated the URL.
+    </br>
+    </br>
+    <details>
+    <summary>➡️ Example configuration ⬅️</summary>
+    
+    ![Example](./meta/example.jpg)
+    </details>
+    </br>
 2. Configure the URL manually as described below.
+
 
 </br>
 
