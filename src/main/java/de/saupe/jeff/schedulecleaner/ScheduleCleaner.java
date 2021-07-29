@@ -5,7 +5,7 @@ import de.saupe.jeff.schedulecleaner.calendar.CalendarComponent.ComponentType;
 import de.saupe.jeff.schedulecleaner.calendar.CalendarBuilder;
 import de.saupe.jeff.schedulecleaner.fixes.Fix;
 import de.saupe.jeff.schedulecleaner.fixes.FixFactory;
-import de.saupe.jeff.schedulecleaner.fixes.FixFactory.FixMethod;
+import de.saupe.jeff.schedulecleaner.fixes.FixMethod;
 import de.saupe.jeff.schedulecleaner.misc.Properties;
 import de.saupe.jeff.schedulecleaner.misc.Utils;
 import lombok.Setter;
