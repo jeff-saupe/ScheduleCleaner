@@ -102,8 +102,8 @@ public class ScheduleCleaner {
 
         // Apply fixes
         for (CalendarComponent event : events) {
-            if (!event.isExcluded()) {
-                for (Fix fix : fixes) {
+            for (Fix fix : fixes) {
+                if (!event.isExcluded()) {
                     fix.apply(event);
                 }
             }
