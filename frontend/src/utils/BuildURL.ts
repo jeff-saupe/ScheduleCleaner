@@ -5,7 +5,8 @@ export default function BuildURL(
 	semester: string,
 	exclude: { text: string }[],
 	replace: { before: string; after: string }[],
-	fixRoom: boolean
+	fixRoom: boolean,
+	keepCodeInTitle: boolean
 ) {
 	if (!validate.centuria(centuria) || !validate.semester(semester)) return null;
 
@@ -43,6 +44,10 @@ export default function BuildURL(
 				`${replaceItem.before};${replaceItem.after}`
 			);
 		}
+	}
+
+	if (keepCodeInTitle) {
+		icsURL.searchParams.append("title", "keepCode");
 	}
 
 	if (fixRoom) {
