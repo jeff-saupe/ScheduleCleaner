@@ -50,7 +50,7 @@ public class ScheduleCleaner {
      */
     private void initFixes() {
         // [Default] Title cleaning
-        Fix clean = FixFactory.createFix(FixMethod.CLEAN);
+        Fix clean = FixFactory.createFix(FixMethod.TITLE);
         addFix(clean);
 
         // [Example] Add the room as a location
@@ -74,6 +74,10 @@ public class ScheduleCleaner {
 
     public void addFix(Fix fix) throws IllegalArgumentException {
         if (fix.check()) {
+            if(fix.getMethod() == FixMethod.TITLE) {
+                // Override default CleanTitle of initFixes()
+                fixes.removeIf(f -> f.getMethod() == FixMethod.TITLE);
+            }
             fixes.add(fix);
         }
     }

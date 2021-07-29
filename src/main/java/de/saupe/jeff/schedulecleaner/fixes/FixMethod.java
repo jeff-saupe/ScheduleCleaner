@@ -3,7 +3,7 @@ package de.saupe.jeff.schedulecleaner.fixes;
 import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public enum FixMethod {
-    CLEAN("clean"),
+    TITLE("title"),
     LOCATION("location"),
     EXCLUDE("exclude"),
     REPLACE("replace");
