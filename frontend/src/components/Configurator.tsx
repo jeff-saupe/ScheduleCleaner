@@ -17,7 +17,7 @@ import validate from "../utils/Validate";
 import buildURL from "../utils/BuildURL";
 import useStyles from "../styles/ConfiguratorStyles";
 
-const semesters = [1, 2, 3, 4, 5, 6, 7];
+//const semesters = [1, 2, 3, 4, 5, 6, 7];
 
 export default function ScheduleConfiguration(props: {
 	setIcsURL: any;
@@ -60,10 +60,11 @@ export default function ScheduleConfiguration(props: {
 						</Grid>
 						<Grid item xs={6}>
 							<TextField
-								type="number"
+								//type="number"
 								margin="dense"
 								variant="outlined"
-								select
+								//select
+								inputProps={{ maxLength: 1 }}
 								label="Semester"
 								name="semester"
 								fullWidth
@@ -72,11 +73,11 @@ export default function ScheduleConfiguration(props: {
 								error={!validate.semester(semester)}
 								onChange={(e) => setSemester(e.target.value.toString())}
 							>
-								{semesters.map((semester) => (
-									<MenuItem key={semester} value={semester}>
-										{semester}
-									</MenuItem>
-								))}
+								{/*{semesters.map((semester) => (*/}
+								{/*	<MenuItem key={semester} value={semester}>*/}
+								{/*		{semester}*/}
+								{/*	</MenuItem>*/}
+								{/*))}*/}
 							</TextField>
 						</Grid>
 					</Grid>
