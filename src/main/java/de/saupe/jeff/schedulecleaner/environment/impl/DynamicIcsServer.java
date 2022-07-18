@@ -26,7 +26,7 @@ import java.util.regex.Pattern;
 
 @Log4j2
 public class DynamicIcsServer extends Environment implements HttpHandler {
-    private final Pattern URLPattern = Pattern.compile(".*/([a-zA-Z][0-9]{2}[a-zA-Z])_([0-9])\\.ics(\\?(.*)|)");
+    private final Pattern URLPattern = Pattern.compile(".*/([a-zA-Z][0-9]{2}[a-zA-Z]?)_(.)\\.ics(\\?(.*)|)");
     private final Pattern fixPattern = Pattern.compile("(.*)=(.*)|(.*)");
 
     @Override

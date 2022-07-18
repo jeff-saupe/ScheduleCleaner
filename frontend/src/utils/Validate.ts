@@ -1,5 +1,5 @@
-const CENTURIA_REGEX = /([a-zA-Z][0-9]{2}[a-zA-Z])/;
-const SEMESTER_REGEX = /[0-9]/;
+const CENTURIA_REGEX = /([a-zA-Z][0-9]{2}[a-zA-Z]?)/;
+const SEMESTER_REGEX = /(.)/;
 
 const validate = {
 	centuria(centuria: string) {
